@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+
+      <modelVersion>4.0.0</modelVersion>
+      <groupId>come.filibuster</groupId>
+      <artifactId>filibuster-webapp</artifactId>
+      <packaging>war</packaging>
+      <name>ntrip-web-client</name>
+      <version>0.1-SNAPSHOT</version>
+
+      <properties>
+        <java.version>1.7</java.version>
+        <org.springframework.version>3.2.5.RELEASE</org.springframework.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <version.scala>2.10.2</version.scala>
+        <!--<version.scala>2.9.1</version.scala>-->
+      </properties>
+
+      <build>
+
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>net.alchim31.maven</groupId>
+              <artifactId>scala-maven-plugin</artifactId>
+              <version>3.1.5</version>
+              <configuration>
+                <scalaVersion>${version.scala}</scalaVersion>
+                <recompileMode>incremental</recompileMode>
+                <args>
+                  <arg>-target:jvm-1.7</arg>
+                </args>
+                <javacArgs>
+                  <javacArg>-source</javacArg><javacArg>1.7</javacArg>
+                  <javacArg>-target</javacArg><javacArg>1.7</javacArg>
+                </javacArgs>
+              </configuration>
+            </plugin>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-compiler-plugin</artifactId>
+              <version>3.1</version>
+              <configuration>
+                <source>1.7</source>
+                <target>1.7</target>
+              </configuration>
+            </plugin>
+
+            <plugin>
+              <groupId>org.apache.tomcat.maven</groupId>
+              <artifactId>tomcat7-maven-plugin</artifactId>
+              <version>2.2</version>
+              <configuration>
+                  <url>http://localhost:8080/manager/text</url>
+                  <username>test</username>
+                  <password>test</password>
+              </configuration>
+
+            </plugin>
+
+
+          </plugins>
+        </pluginManagement>
+
+
+        <plugins>
+
+          <plugin>
+            <groupId>net.alchim31.maven</groupId>
+            <artifactId>scala-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>scala-compile</id>
+                <goals>
+                  <goal>compile</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>scala-test-compile</id>
+                <goals>
+                  <goal>testCompile</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+
+          <plugin>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>default-compile</id>
+                <phase>none</phase>
+              </execution>
+              <execution>
+                <id>default-testCompile</id>
+                <phase>none</phase>
+              </execution>
+            </executions>
+          </plugin>
+
+          <plugin>
+            <groupId>org.apache.tomcat.maven</groupId>
+            <artifactId>tomcat7-maven-plugin</artifactId>
+            <version>2.2</version>
+          </plugin>
+
+        </plugins>
+      </build>
+
+      <repositories>
+
+        <repository>
+          <id>version99</id>
+          <!-- highly available repository serving empty artifacts -->
+          <url>http://version99.qos.ch/</url>
+        </repository>
+
+        <repository>
+          <id>typesafe</id>
+          <name>typesafe-releases</name>
+          <url>http://repo.typesafe.com/typesafe/repo</url>
+        </repository>
+
+      </repositories>
+
+      <dependencies>
+
+        <dependency>
+          <groupId>org.jumpmind.symmetric.jdbc</groupId>
+          <artifactId>mariadb-java-client</artifactId>
+          <version>1.1.1</version>
+        </dependency>
+
+          <dependency>
+              <groupId>org.springframework</groupId>
+              <artifactId>spring-core</artifactId>
+              <version>${org.springframework.version}</version>
+          </dependency>
+
+          <dependency>
+              <groupId>org.springframework</groupId>
+              <artifactId>spring-beans</artifactId>
+              <version>${org.springframework.version}</version>
+          </dependency>
+
+          <dependency>
+              <groupId>org.springframework</groupId>
+              <artifactId>spring-context</artifactId>
+              <version>${org.springframework.version}</version>
+              <exclusions>
+                  <exclusion>
+                      <groupId>commons-logging</groupId>
+                      <artifactId>commons-logging</artifactId>
+                  </exclusion>
+              </exclusions>
+          </dependency>
+
+          <dependency>
+              <groupId>org.springframework.webflow</groupId>
+              <artifactId>org.springframework.js</artifactId>
+              <version>2.0.5.RELEASE</version>
+          </dependency>
+
+          <dependency>
+              <groupId>org.springframework</groupId>
+              <artifactId>spring-jdbc</artifactId>
+              <version>${org.springframework.version}</version>
+          </dependency>
+
+          <dependency>
+              <groupId>org.springframework</groupId>
+              <artifactId>spring-oxm</artifactId>
+              <version>${org.springframework.version}</version>
+          </dependency>
+
+          <dependency>
+              <groupId>org.springframework</groupId>
+              <artifactId>spring-web</artifactId>
+              <version>${org.springframework.version}</version>
+          </dependency>
+
+          <dependency>
+              <groupId>org.springframework</groupId>
+              <artifactId>spring-webmvc</artifactId>
+              <version>${org.springframework.version}</version>
+          </dependency>
+
+          <dependency>
+              <groupId>org.springframework</groupId>
+              <artifactId>spring-webmvc-portlet</artifactId>
+              <version>${org.springframework.version}</version>
+          </dependency>
+
+          <dependency>
+              <groupId>org.springframework</groupId>
+              <artifactId>spring-test</artifactId>
+              <version>${org.springframework.version}</version>
+              <scope>test</scope>
+          </dependency>
+
+          <dependency>
+              <groupId>javax.servlet</groupId>
+              <artifactId>jstl</artifactId>
+              <version>1.1.2</version>
+          </dependency>
+
+          <dependency>
+              <groupId>javax.servlet</groupId>
+              <artifactId>servlet-api</artifactId>
+              <version>2.5</version>
+          </dependency>
+
+          <dependency>
+              <groupId>org.hibernate</groupId>
+              <artifactId>hibernate-validator</artifactId>
+              <version>5.0.1.Final</version>
+          </dependency>
+
+          <dependency>
+              <groupId>junit</groupId>
+              <artifactId>junit</artifactId>
+              <version>4.8.1</version>
+              <scope>test</scope>
+          </dependency>
+
+          <dependency>
+              <groupId>javax.validation</groupId>
+              <artifactId>validation-api</artifactId>
+              <version>1.1.0.Final</version>
+          </dependency>
+
+          <dependency>
+              <groupId>taglibs</groupId>
+              <artifactId>standard</artifactId>
+              <version>1.1.2</version>
+          </dependency>
+
+          <dependency>
+              <groupId>play</groupId>
+              <artifactId>play_2.9.1</artifactId>
+              <version>2.0.2</version>
+              <exclusions>
+                  <exclusion>
+                      <groupId>org.codehaus.jackson</groupId>
+                      <artifactId>jackson-mapper-asl</artifactId>
+                  </exclusion>
+              </exclusions>
+          </dependency>
+
+
+      </dependencies>
+
+
+
+</project>
