@@ -3,10 +3,10 @@
 
 
       <modelVersion>4.0.0</modelVersion>
-      <groupId>come.filibuster</groupId>
-      <artifactId>filibuster-webapp</artifactId>
+      <groupId>com.filibuster</groupId>
+      <artifactId>filibuster</artifactId>
       <packaging>war</packaging>
-      <name>ntrip-web-client</name>
+      <name>filibuster-webapp</name>
       <version>0.1-SNAPSHOT</version>
 
       <properties>

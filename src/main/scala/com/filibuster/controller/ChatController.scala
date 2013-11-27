@@ -1,7 +1,7 @@
 package com.filibuster.controller
 
 import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.{ResponseBody, RequestMapping, RequestMethod}
+import org.springframework.web.bind.annotation.{RequestParam, ResponseBody, RequestMapping, RequestMethod}
 
 
 /**
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.{ResponseBody, RequestMapping, Re
  */
 
 @Controller
-@RequestMapping(value=Array("/filibuster"))
 class ChatController {
 
 
@@ -22,6 +21,14 @@ class ChatController {
   def test = {
     "success"
   }
+
+  @RequestMapping(value = Array("/say_something"), method = Array(RequestMethod.GET))
+  @ResponseBody
+  def say_something(@RequestParam(value="words",required=false) words : String) = {
+     if (words == null) "" else words
+  }
+
+
 
 
 }
