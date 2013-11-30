@@ -13,19 +13,26 @@ import org.springframework.web.bind.annotation.{RequestParam, ResponseBody, Requ
  */
 
 @Controller
+@RequestMapping(value=Array("/chat"))
 class ChatController {
 
 
-  @RequestMapping(value = Array("/test"), method = Array(RequestMethod.GET))
-  @ResponseBody
-  def test = {
-    "success"
-  }
-
   @RequestMapping(value = Array("/say_something"), method = Array(RequestMethod.GET))
   @ResponseBody
-  def say_something(@RequestParam(value="words",required=false) words : String) = {
-     if (words == null) "" else words
+  def say_something(@RequestParam(value="name") name : String,
+                    @RequestParam(value="group") group : String,
+                    @RequestParam(value="words") words : String) = {
+    //TODO: connect to service and pass what was just said
+
+  }
+
+  @RequestMapping(value = Array("/listen"), method = Array(RequestMethod.GET))
+  @ResponseBody
+  def get_conversation(@RequestParam(value="name") name : String,
+                       @RequestParam(value="group") group : String) = {
+
+    //TODO: connect to service and listen for what's being said
+
   }
 
 
