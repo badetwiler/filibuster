@@ -17,6 +17,126 @@
         <!--<version.scala>2.9.1</version.scala>-->
       </properties>
 
+      <dependencies>
+
+        <dependency>
+            <groupId>org.jumpmind.symmetric.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${org.springframework.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.webflow</groupId>
+            <artifactId>org.springframework.js</artifactId>
+            <version>2.0.5.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-oxm</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc-portlet</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${org.springframework.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.1.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>5.0.1.Final</version>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.8.1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>1.1.0.Final</version>
+        </dependency>
+
+        <dependency>
+            <groupId>taglibs</groupId>
+            <artifactId>standard</artifactId>
+            <version>1.1.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.typesafe.play</groupId>
+            <artifactId>play-json_2.10</artifactId>
+            <version>2.2.1</version>
+        </dependency>
+
+    </dependencies>
+
       <build>
 
         <pluginManagement>
@@ -64,7 +184,6 @@
           </plugins>
         </pluginManagement>
 
-
         <plugins>
 
           <plugin>
@@ -107,7 +226,38 @@
           </plugin>
 
         </plugins>
+
+        <extensions>
+          <extension>
+
+            <groupId>org.kuali.maven.wagons</groupId>
+            <artifactId>maven-s3-wagon</artifactId>
+            <version>1.2.1</version>
+
+            <!--<groupId>org.springframework.build</groupId>-->
+            <!--<artifactId>aws-maven</artifactId>-->
+            <!--<version>4.8.0.RELEASE</version>-->
+
+
+          </extension>
+        </extensions>
+
       </build>
+
+      <distributionManagement>
+
+        <repository>
+            <id>team-gusto-release-repo</id>
+            <name>Team Gusto S3 Release Repository</name>
+            <url>s3://gusto-maven-repo/release</url>
+        </repository>
+        <snapshotRepository>
+            <id>team-gusto-snapshot-repo</id>
+            <name>Team Gusto S3 Snapshot Repository</name>
+            <url>s3://gusto-maven-repo/snapshot</url>
+        </snapshotRepository>
+
+    </distributionManagement>
 
       <repositories>
 
@@ -123,128 +273,55 @@
           <url>http://repo.typesafe.com/typesafe/releases</url>
         </repository>
 
+        <repository>
+          <id>team-gusto-release-repo</id>
+          <name>Team Gusto S3 Release Repository</name>
+          <url>s3://gusto-maven-repo/release</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </repository>
+
+        <repository>
+          <id>team-gusto-snapshot-repo</id>
+          <name>Team Gusto S3 Snapshot Repository</name>
+          <url>s3://gusto-maven-repo/snapshot</url>
+          <releases>
+            <enabled>false</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </repository>
+
+
       </repositories>
-
-      <dependencies>
-
-        <dependency>
-          <groupId>org.jumpmind.symmetric.jdbc</groupId>
-          <artifactId>mariadb-java-client</artifactId>
-          <version>1.1.1</version>
-        </dependency>
-
-          <dependency>
-              <groupId>org.springframework</groupId>
-              <artifactId>spring-core</artifactId>
-              <version>${org.springframework.version}</version>
-          </dependency>
-
-          <dependency>
-              <groupId>org.springframework</groupId>
-              <artifactId>spring-beans</artifactId>
-              <version>${org.springframework.version}</version>
-          </dependency>
-
-          <dependency>
-              <groupId>org.springframework</groupId>
-              <artifactId>spring-context</artifactId>
-              <version>${org.springframework.version}</version>
-              <exclusions>
-                  <exclusion>
-                      <groupId>commons-logging</groupId>
-                      <artifactId>commons-logging</artifactId>
-                  </exclusion>
-              </exclusions>
-          </dependency>
-
-          <dependency>
-              <groupId>org.springframework.webflow</groupId>
-              <artifactId>org.springframework.js</artifactId>
-              <version>2.0.5.RELEASE</version>
-          </dependency>
-
-          <dependency>
-              <groupId>org.springframework</groupId>
-              <artifactId>spring-jdbc</artifactId>
-              <version>${org.springframework.version}</version>
-          </dependency>
-
-          <dependency>
-              <groupId>org.springframework</groupId>
-              <artifactId>spring-oxm</artifactId>
-              <version>${org.springframework.version}</version>
-          </dependency>
-
-          <dependency>
-              <groupId>org.springframework</groupId>
-              <artifactId>spring-web</artifactId>
-              <version>${org.springframework.version}</version>
-          </dependency>
-
-          <dependency>
-              <groupId>org.springframework</groupId>
-              <artifactId>spring-webmvc</artifactId>
-              <version>${org.springframework.version}</version>
-          </dependency>
-
-          <dependency>
-              <groupId>org.springframework</groupId>
-              <artifactId>spring-webmvc-portlet</artifactId>
-              <version>${org.springframework.version}</version>
-          </dependency>
-
-          <dependency>
-              <groupId>org.springframework</groupId>
-              <artifactId>spring-test</artifactId>
-              <version>${org.springframework.version}</version>
-              <scope>test</scope>
-          </dependency>
-
-          <dependency>
-              <groupId>javax.servlet</groupId>
-              <artifactId>jstl</artifactId>
-              <version>1.1.2</version>
-          </dependency>
-
-          <dependency>
-              <groupId>javax.servlet</groupId>
-              <artifactId>servlet-api</artifactId>
-              <version>2.5</version>
-          </dependency>
-
-          <dependency>
-              <groupId>org.hibernate</groupId>
-              <artifactId>hibernate-validator</artifactId>
-              <version>5.0.1.Final</version>
-          </dependency>
-
-          <dependency>
-              <groupId>junit</groupId>
-              <artifactId>junit</artifactId>
-              <version>4.8.1</version>
-              <scope>test</scope>
-          </dependency>
-
-          <dependency>
-              <groupId>javax.validation</groupId>
-              <artifactId>validation-api</artifactId>
-              <version>1.1.0.Final</version>
-          </dependency>
-
-          <dependency>
-              <groupId>taglibs</groupId>
-              <artifactId>standard</artifactId>
-              <version>1.1.2</version>
-          </dependency>
-
-          <dependency>
-              <groupId>com.typesafe.play</groupId>
-              <artifactId>play-json_2.10</artifactId>
-              <version>2.2.1</version>
-          </dependency>
-
-      </dependencies>
-
-
+      <pluginRepositories>
+        <pluginRepository>
+            <id>team-gusto-release-repo</id>
+            <name>Team Gusto S3 Release Repository</name>
+            <url>s3://gusto-maven-repo/release</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <id>team-gusto-snapshot-repo</id>
+            <name>Team Gusto S3 Snapshot Repository</name>
+            <url>s3://gusto-maven-repo/snapshot</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
 
 </project>
