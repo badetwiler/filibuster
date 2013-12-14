@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d %t [%-5level] - %-40class{40} - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <logger name="com.filibuster level="debug" />
+
+    <root level="warn">
+        <appender-ref ref="stdout"/>
+    </root>
+
+</configuration>

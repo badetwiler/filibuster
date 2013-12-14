@@ -1,0 +1,11 @@
+#chat-container { width: 520px; height:100%; margin: 20px 0 10px; 
+#chat-container .viewport { position: relative; }
+#chat-container .overview { list-style: none; position: absolute; left: 0; top: 0; }
+#chat-container .thumb .end,
+#chat-container .thumb { background-color: #003D5D; }
+#chat-container .scrollbar { position: relative; float: right; width: 15px; }
+#chat-container .track { background-color: #D8EEFD; height: 100%; width:13px; position: relative; padding: 0 1px; }
+#chat-container .thumb { height: 20px; width: 13px; cursor: pointer; overflow: hidden; position: absolute; top: 0; }
+#chat-container .thumb .end { overflow: hidden; height: 5px; width: 13px; }
+#chat-container .disable{ display: none; }
+.noSelect { user-select: none; -o-user-select: none; -moz-user-select: none; -khtml-user-select: none; -webkit-user-select: none; }

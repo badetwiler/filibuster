@@ -10,13 +10,7 @@
 
     <mvc:annotation-driven />
 
-    <context:component-scan base-package="com.filibuster.controller" />
-
-    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/presentation/" />
-        <property name="suffix" value=".html" />
-    </bean>
-
+    <context:component-scan base-package="com.filibuster" />
 
     <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
 
