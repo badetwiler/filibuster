@@ -33,7 +33,9 @@ class JettyServer extends Logging
       servletContextHandler.setResourceBase(webrootPath)
 
       val springServletHolder = new ServletHolder(classOf[DispatcherServlet])
-      springServletHolder.setInitParameter("contextConfigLocation", "classpath:beans.xml")
+
+      springServletHolder.setInitParameter("contextConfigLocation", "classpath:webroot/beans.xml")
+
       springServletHolder.setInitOrder(10) // A positive value here indicates eagerly load; a negative value is lazy
 
       servletContextHandler.addServlet(springServletHolder, "/api/*")
@@ -42,6 +44,8 @@ class JettyServer extends Logging
       servletContextHandler.addServlet(staticContentServlet, "/*")
 
       _server.start()
+
+      println
 
       _logger.info("Jetty Server running on " + _port)
     }

@@ -23,6 +23,7 @@ class ChatController {
                     @RequestParam(value="group") group : String,
                     @RequestParam(value="words") words : String) = {
     //TODO: connect to service and pass what was just said
+    "say something"
 
   }
 

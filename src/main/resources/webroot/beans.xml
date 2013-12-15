@@ -10,7 +10,7 @@
 
     <mvc:annotation-driven />
 
-    <context:component-scan base-package="com.filibuster" />
+    <context:component-scan base-package="com.filibuster.controller" />
 
     <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
 
