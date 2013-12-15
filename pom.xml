@@ -301,35 +301,22 @@
 
         </plugins>
 
-        <extensions>
-          <extension>
-
-            <groupId>org.kuali.maven.wagons</groupId>
-            <artifactId>maven-s3-wagon</artifactId>
-            <version>1.2.1</version>
-
-            <!--<groupId>org.springframework.build</groupId>-->
-            <!--<artifactId>aws-maven</artifactId>-->
-            <!--<version>4.8.0.RELEASE</version>-->
-
-
-          </extension>
-        </extensions>
-
       </build>
 
       <distributionManagement>
 
         <repository>
-            <id>team-gusto-release-repo</id>
-            <name>Team Gusto S3 Release Repository</name>
-            <url>s3://gusto-maven-repo/release</url>
+          <id>gusto-releasess</id>
+          <name>Gusto Releasess</name>
+          <url>http://nexus.rintint.in/nexus/content/repositories/releases/</url>
         </repository>
+
         <snapshotRepository>
-            <id>team-gusto-snapshot-repo</id>
-            <name>Team Gusto S3 Snapshot Repository</name>
-            <url>s3://gusto-maven-repo/snapshot</url>
+          <id>gusto-snapshots</id>
+          <name>Gusto Snapshots</name>
+          <url>http://nexus.rintint.in/nexus/content/repositories/snapshots/</url>
         </snapshotRepository>
+
 
     </distributionManagement>
 
@@ -343,59 +330,15 @@
 
         <repository>
           <id>typesafe</id>
-          <name>typesafe-releases</name>
           <url>http://repo.typesafe.com/typesafe/releases</url>
         </repository>
 
         <repository>
-          <id>team-gusto-release-repo</id>
-          <name>Team Gusto S3 Release Repository</name>
-          <url>s3://gusto-maven-repo/release</url>
-          <releases>
-            <enabled>true</enabled>
-          </releases>
-          <snapshots>
-            <enabled>false</enabled>
-          </snapshots>
-        </repository>
-
-        <repository>
-          <id>team-gusto-snapshot-repo</id>
-          <name>Team Gusto S3 Snapshot Repository</name>
-          <url>s3://gusto-maven-repo/snapshot</url>
-          <releases>
-            <enabled>false</enabled>
-          </releases>
-          <snapshots>
-            <enabled>true</enabled>
-          </snapshots>
+          <id>gusto-releasess</id>
+          <url>http://nexus.rintint.in/nexus/content/repositories/releases/</url>
         </repository>
 
 
       </repositories>
-      <pluginRepositories>
-        <pluginRepository>
-            <id>team-gusto-release-repo</id>
-            <name>Team Gusto S3 Release Repository</name>
-            <url>s3://gusto-maven-repo/release</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </pluginRepository>
-        <pluginRepository>
-            <id>team-gusto-snapshot-repo</id>
-            <name>Team Gusto S3 Snapshot Repository</name>
-            <url>s3://gusto-maven-repo/snapshot</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
 
 </project>
