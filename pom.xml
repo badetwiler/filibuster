@@ -307,7 +307,6 @@
           </plugin>
 
 
-
         </plugins>
 
       </build>
@@ -349,16 +348,6 @@
         <repository>
             <id>typesafe</id>
             <url>http://repo.typesafe.com/typesafe/releases</url>
-        </repository>
-
-        <repository>
-            <id>spray-nightlies</id>
-            <url>http://nightlies.spray.io</url>
-        </repository>
-
-        <repository>
-          <id>spray-releases</id>
-          <url>http://repo.spray.io</url>
         </repository>
 
       </repositories>
