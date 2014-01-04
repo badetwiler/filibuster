@@ -356,6 +356,11 @@
             <url>http://nightlies.spray.io</url>
         </repository>
 
+        <repository>
+          <id>spray-releases</id>
+          <url>http://repo.spray.io</url>
+        </repository>
+
       </repositories>
 
 </project>
