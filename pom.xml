@@ -20,6 +20,17 @@
 
       <dependencies>
 
+          <dependency>
+              <groupId>filibusterservicemodel</groupId>
+              <artifactId>filibusterservicemodel_2.10</artifactId>
+              <version>1.0-SNAPSHOT</version>
+          </dependency>
+
+          <dependency>
+              <groupId>filibusterserviceclient</groupId>
+              <artifactId>filibusterserviceclient_2.10</artifactId>
+              <version>1.0-SNAPSHOT</version>
+          </dependency>
 
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -321,23 +332,26 @@
     </distributionManagement>
 
       <repositories>
+          <repository>
+              <id>gusto-snapshots</id>
+              <url>http://nexus.rintint.in/nexus/content/repositories/snapshots</url>
+          </repository>
 
         <repository>
-          <id>version99</id>
-          <!-- highly available repository serving empty artifacts -->
-          <url>http://version99.qos.ch/</url>
+          <id>gusto-releases</id>
+          <url>http://nexus.rintint.in/nexus/content/repositories/releases</url>
         </repository>
 
         <repository>
-          <id>typesafe</id>
-          <url>http://repo.typesafe.com/typesafe/releases</url>
+            <id>version99</id>
+            <!-- highly available repository serving empty artifacts -->
+            <url>http://version99.qos.ch/</url>
         </repository>
 
         <repository>
-          <id>gusto-releasess</id>
-          <url>http://nexus.rintint.in/nexus/content/repositories/releases/</url>
+            <id>typesafe</id>
+            <url>http://repo.typesafe.com/typesafe/releases</url>
         </repository>
-
 
       </repositories>
 
