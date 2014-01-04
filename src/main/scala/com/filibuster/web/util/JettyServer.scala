@@ -1,11 +1,13 @@
 package com.filibuster.web.util
 
 import com.filibuster.common.Logging
-import java.net.InetSocketAddress
+import java.net.{URLDecoder, InetSocketAddress}
 import org.eclipse.jetty.server.Server
 import org.eclipse.jetty.servlet.{DefaultServlet, ServletHolder, ServletContextHandler}
 import org.springframework.web.servlet.DispatcherServlet
 import java.io.File
+import org.springframework.core.io.ClassPathResource
+import org.eclipse.jetty.util.resource.Resource
 
 
 class JettyServer extends Logging
@@ -24,28 +26,50 @@ class JettyServer extends Logging
       _server.setSendServerVersion(false)
 
       val indexLoc = new File(getClass.getClassLoader.getResource("webroot/index.html").getFile)
-      val webrootPath = indexLoc.getParentFile.getAbsolutePath
+      val webrootPath = isRunningFromJar match {
+        case true =>
+            new ClassPathResource("webroot/index.html").getURI.toString
+        case false =>
+          val indexLoc = new File(getClass.getClassLoader.getResource("webroot/index.html").getFile)
+          indexLoc.getParentFile.getAbsolutePath
+      }
 
-      _logger.info("Webroot: " + webrootPath)
+      _logger.info("Webroot: " + webrootPath + ", is running from jar: " + isRunningFromJar)
 
       val servletContextHandler: ServletContextHandler = new ServletContextHandler(_server, "/", true, false)
       servletContextHandler.setWelcomeFiles(Array("index.html"))
-      servletContextHandler.setResourceBase(webrootPath)
+//      servletContextHandler.setResourceBase(webrootPath)
 
       val springServletHolder = new ServletHolder(classOf[DispatcherServlet])
-
       springServletHolder.setInitParameter("contextConfigLocation", "classpath:webroot/beans.xml")
-
       springServletHolder.setInitOrder(10) // A positive value here indicates eagerly load; a negative value is lazy
-
       servletContextHandler.addServlet(springServletHolder, "/api/*")
 
-      var staticContentServlet = new ServletHolder(classOf[DefaultServlet])
+      val staticContentServlet = new ServletHolder(new DefaultServlet {
+        private final val resourcesPrefix = "/webroot"
+
+        override def getResource(pathInContext:String):Resource =
+        {
+          val resourceString = pathInContext.startsWith(resourcesPrefix) match
+          {
+            case true => pathInContext
+            case false => resourcesPrefix + pathInContext
+          }
+
+          val url = getClass.getResource(resourceString)
+
+          try {
+            Resource.newResource(url)
+          } catch {
+            case e: Exception => null
+          }
+        }
+
+      })
+
       servletContextHandler.addServlet(staticContentServlet, "/*")
 
       _server.start()
-
-      println
 
       _logger.info("Jetty Server running on " + _port)
     }
@@ -73,6 +97,24 @@ class JettyServer extends Logging
       }
   }
 
+
+  private def getRunningJarPath: Option[String] =
+  {
+    val path = getClass.getProtectionDomain.getCodeSource.getLocation.getPath
+
+    try
+    {
+      Option(URLDecoder.decode(path, "UTF-8"))
+    }
+    catch
+      {
+        case e: Exception =>
+          _logger.warn("Unable to locate jar path", e)
+          return None
+      }
+  }
+
+  private def isRunningFromJar: Boolean = getRunningJarPath.getOrElse(return false).endsWith(".jar")
 
 
 }
