@@ -40,6 +40,11 @@ body {
 
 }
 
+.input-group{
+    margin-top:10px;
+    margin-bottom:10px;
+}
+
 .top-border {
   border-top: 1px solid #aaaaaa;
 }
@@ -146,4 +151,6 @@ body {
   display:inline;
 
 }
+
+
 

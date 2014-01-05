@@ -69,11 +69,12 @@
       </div>
     </div> <!-- background div -->
 
+    <!-- login dialog -->
     <div id="login-dialog">        
       <div class="login-input-row">          
         <div class="login-input-title"> 
-	  <h5><b>Name</b></h5>
-	</div>
+            <h5><b>Name</b></h5>
+        </div>
         <div class="input-group">
           <span class="input-group-addon"></span>
           <input id="login-username" type="text" class="form-control" placeholder="username">
@@ -88,6 +89,35 @@
         </div>
       </div>
     </div>
+
+
+    <!-- new-user dialog -->
+    <div id="new-user-dialog">
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon">email address</span>
+                <input type="text" class="form-control" placeholder="email address" nam="email-address">
+            </div>
+
+            <div class="input-group">
+                <span class="input-group-addon">username</span>
+                <input type="text" class="form-control" placeholder="username" name="username">
+            </div>
+
+            <div class="input-group">
+                <span class="input-group-addon">password</span>
+                <input type="password" class="form-control" placeholder="password">
+            </div>
+
+            <div class="input-group">
+                <span class="input-group-addon">retype-password</span>
+                <input type="password" class="form-control" placeholder="retype password" name="password">
+            </div>
+            <button type="submit" formaction="/api/new-user" class="btn btn-default">Create</button>
+            <button type="button" class="btn btn-default">Cancel</button>
+        </div>
+    </div>
+
 
   </body>
 </html>
