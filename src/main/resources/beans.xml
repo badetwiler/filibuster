@@ -14,4 +14,7 @@
 
     <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
 
+    <!-- uncomment to add once db pw is added to db.properties -->
+    <!--<import resource="data-beans.xml" />-->
+
 </beans>

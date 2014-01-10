@@ -8,7 +8,7 @@
         </encoder>
     </appender>
 
-    <logger name="com.filibuster level="debug" />
+    <logger name="com.filibuster.common.Logging" level="debug" />
 
     <root level="warn">
         <appender-ref ref="stdout"/>

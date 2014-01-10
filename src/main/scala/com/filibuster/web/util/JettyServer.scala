@@ -22,7 +22,7 @@ class JettyServer extends Logging
 
     try
     {
-      _server = new Server(new InetSocketAddress("127.0.0.1", _port))
+      _server = new Server(new InetSocketAddress("0.0.0.0", _port))
       _server.setSendServerVersion(false)
 
       val indexLoc = new File(getClass.getClassLoader.getResource("webroot/index.html").getFile)
@@ -41,7 +41,7 @@ class JettyServer extends Logging
 //      servletContextHandler.setResourceBase(webrootPath)
 
       val springServletHolder = new ServletHolder(classOf[DispatcherServlet])
-      springServletHolder.setInitParameter("contextConfigLocation", "classpath:webroot/beans.xml")
+      springServletHolder.setInitParameter("contextConfigLocation", "classpath:beans.xml")
       springServletHolder.setInitOrder(10) // A positive value here indicates eagerly load; a negative value is lazy
       servletContextHandler.addServlet(springServletHolder, "/api/*")
 
