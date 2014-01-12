@@ -3,9 +3,6 @@ package com.filibuster.web
 import com.filibuster.web.util.JettyServer
 import com.filibuster.common.Logging
 
-/**
- * Created by ben on 12/14/13.
- */
 object EntryPoint extends App with Logging{
 
   val jettyServer = new JettyServer()

@@ -1,11 +1,10 @@
 package com.filibuster.controller
 
+import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.{RequestParam, ResponseBody, RequestMethod, RequestMapping}
 
-/**
- * Created by ben on 1/5/14.
- */
 
+@Controller
 @RequestMapping(value=Array("/new-user"))
 class UserController {
 

@@ -1,8 +1,10 @@
 package com.filibuster.controller
 
+
 import org.springframework.web.bind.annotation.{RequestParam, ResponseBody, RequestMapping, RequestMethod}
 import play.api.libs.json.Json.stringify
 import play.api.libs.json.Json
+import org.springframework.stereotype.Controller
 
 
 /**
@@ -12,6 +14,7 @@ import play.api.libs.json.Json
  *
  * work harder, not smarter
  */
+@Controller
 @RequestMapping(value=Array("/group"))
 class GroupController {
 

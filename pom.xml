@@ -11,10 +11,11 @@
 
       <properties>
         <java.version>1.7</java.version>
-        <org.springframework.version>3.2.5.RELEASE</org.springframework.version>
+        <org.springframework.version>3.2.6.RELEASE</org.springframework.version>
+        <org.springframework.security.version>3.2.0.RELEASE</org.springframework.security.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <version.scala>2.10.2</version.scala>
-        <version.jetty>8.1.8.v20121106</version.jetty>
+        <version.jetty>9.1.1.v20140108</version.jetty>
         <version.slf4j>1.6.1</version.slf4j>
       </properties>
 
@@ -145,12 +146,12 @@
           <dependency>
               <groupId>org.springframework.security</groupId>
               <artifactId>spring-security-web</artifactId>
-              <version>3.2.0.RELEASE</version>
+              <version>${org.springframework.security.version}</version>
           </dependency>
           <dependency>
               <groupId>org.springframework.security</groupId>
               <artifactId>spring-security-config</artifactId>
-              <version>3.2.0.RELEASE</version>
+              <version>${org.springframework.security.version}</version>
           </dependency>
 
 
