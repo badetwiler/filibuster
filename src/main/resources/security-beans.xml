@@ -15,17 +15,12 @@
         <logout logout-success-url="/logout" />
     </http>
 
+
     <authentication-manager>
-        <authentication-provider>
-            <jdbc-user-service data-source-ref="dataSource"
-
-                               users-by-username-query="
-		      select username,password, active
-		      from users where username=?"
-
-
-                    />
-        </authentication-provider>
+        <authentication-provider user-service-ref="filibusterUserDetailsService" />
     </authentication-manager>
+
+    <bean name="filibusterUserDetailsService" class="x.y.MyUserDetailsService" />
+
 
 </beans:beans>
