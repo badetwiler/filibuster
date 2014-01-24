@@ -11,9 +11,15 @@ class LoginController @Autowired() (dataManager:FilibusterDataManager)
 {
 
   @RequestMapping(value = Array("/login"), method = Array(RequestMethod.GET))
-  def login():String = {
+  def showLogin():String = {
     "login"
+  }
 
+  @RequestMapping(value = Array("/login"), method = Array(RequestMethod.POST))
+  @ResponseBody
+  def login(@RequestParam("username") username:String,
+            @RequestParam("password") password:String):String = {
+    "tried to login"
   }
 
   @RequestMapping(value = Array("/createUser"), method = Array(RequestMethod.GET))
