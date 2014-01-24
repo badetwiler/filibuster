@@ -1,4 +1,4 @@
-package com.filibuster.dao
+package com.filibuster.data.dao
 
 import com.filibuster.model.User
 
