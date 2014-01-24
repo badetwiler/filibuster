@@ -13,13 +13,6 @@
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
 
-    <bean id="securityConfig" class="com.filibuster.config.SecurityConfig">
-        <constructor-arg name="dataSource">
-                    <ref local="dataSource"/>
-        </constructor-arg>
-    </bean>
-
-
     <bean id="javaJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
         <constructor-arg ref="dataSource" />
     </bean>
