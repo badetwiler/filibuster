@@ -9,6 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority
 class FilibusterUserDetailsService extends UserDetailsService
 {
 
+
   def loadUserByUsername(username: String): UserDetails =
   {
 

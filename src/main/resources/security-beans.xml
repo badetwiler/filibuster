@@ -6,8 +6,6 @@
 	http://www.springframework.org/schema/security
 	http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
-    <!--<beans:import resource="data-beans.xml" />-->
-
     <http auto-config="true">
         <intercept-url pattern="/chat/**" access="ROLE_USER" />
         <form-login login-page="/login" default-target-url="/welcome"
@@ -20,7 +18,7 @@
         <authentication-provider user-service-ref="filibusterUserDetailsService" />
     </authentication-manager>
 
-    <bean name="filibusterUserDetailsService" class="x.y.MyUserDetailsService" />
+    <beans:bean name="filibusterUserDetailsService" class="com.filibuster.service.FilibusterUserDetailsService" />
 
 
 </beans:beans>

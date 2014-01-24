@@ -12,7 +12,6 @@ import org.springframework.web.filter.DelegatingFilterProxy
 import javax.servlet.DispatcherType
 import java.util
 import org.springframework.web.context.ContextLoaderListener
-import org.springframework.web.context.support.WebApplicationContextUtils
 
 
 class JettyServer extends Logging
@@ -30,6 +29,7 @@ class JettyServer extends Logging
       _server = new Server(new InetSocketAddress("0.0.0.0", _port))
 
       val indexLoc = new File(getClass.getClassLoader.getResource("webroot/static/index.html").getFile)
+
       val webrootPath = isRunningFromJar match {
         case true =>
             new ClassPathResource("webroot/static/index.html").getURI.toString
@@ -37,6 +37,7 @@ class JettyServer extends Logging
           val indexLoc = new File(getClass.getClassLoader.getResource("webroot/static/index.html").getFile)
           indexLoc.getParentFile.getAbsolutePath
       }
+
       _logger.info("Webroot: " + webrootPath + ", is running from jar: " + isRunningFromJar)
 
       val servletContextHandler: ServletContextHandler = new ServletContextHandler(_server, "/", true, false)
