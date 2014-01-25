@@ -22,12 +22,12 @@ abstract class BaseDao(val _template:RichJdbcTemplate) extends Logging
 
   def update(sql:String, args:Any*): Unit =
   {
-    _template.update(sql,args)
+    _template.update(sql,args.map(_.asInstanceOf[AnyRef]) :_*)
   }
 
   def insert(sql:String,args:Any*):Unit =
   {
-    _template.update(sql,args)
+    _template.update(sql,args.map(_.asInstanceOf[AnyRef]) :_*)
   }
 
 
