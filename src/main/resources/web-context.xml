@@ -15,6 +15,9 @@ http://www.springframework.org/schema/context/spring-context-3.2.xsd">
     <context:component-scan base-package="com.filibuster.controller" />
     <!--<mvc:resources mapping="/static/**" location="/static/" />-->
 
+
+
+
     <bean id="staticViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="static/"/>
         <property name="suffix" value=".html"/>

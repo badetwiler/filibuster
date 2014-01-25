@@ -23,5 +23,9 @@ class FilibusterDataManager(userDao:UserDao)
 
   }
 
+  def getUser(username:String) : Option[User] =
+  {
+    userDao.selectByUsername(username)
+  }
 
 }

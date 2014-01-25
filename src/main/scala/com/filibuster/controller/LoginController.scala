@@ -19,7 +19,7 @@ class LoginController @Autowired() (dataManager:FilibusterDataManager)
   @ResponseBody
   def login(@RequestParam("username") username:String,
             @RequestParam("password") password:String):String = {
-    "tried to login"
+    s"tried to login $username, $password"
   }
 
   @RequestMapping(value = Array("/createUser"), method = Array(RequestMethod.GET))

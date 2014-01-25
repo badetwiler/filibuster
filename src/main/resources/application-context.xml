@@ -15,7 +15,8 @@ http://www.springframework.org/schema/context/spring-context-3.2.xsd">
        application context.
     -->
 
-    <import resource="security-beans.xml"/>
     <import resource="data-beans.xml" />
+    <import resource="security-beans.xml"/>
+
 
 </beans>
