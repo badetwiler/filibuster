@@ -19,6 +19,8 @@ class LoginController @Autowired() (dataManager:FilibusterDataManager)
   @ResponseBody
   def login(@RequestParam("username") username:String,
             @RequestParam("password") password:String):String = {
+
+    
     s"tried to login $username, $password"
   }
 

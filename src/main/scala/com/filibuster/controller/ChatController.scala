@@ -3,6 +3,7 @@ package com.filibuster.controller
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.{RequestParam, ResponseBody, RequestMapping, RequestMethod}
 import com.gusto.filibuster.client._
+import java.security.Principal
 
 /**
  *
@@ -19,9 +20,11 @@ class ChatController {
 
   @RequestMapping(value = Array("/say_something"), method = Array(RequestMethod.GET))
   @ResponseBody
-  def say_something(@RequestParam(value="name") name : String,
+  def say_something(principal:Principal,
+                    @RequestParam(value="name") name : String,
                     @RequestParam(value="group") group : String,
                     @RequestParam(value="words") words : String) = {
+
     //TODO: connect to service and pass what was just said
     val client = new FilibusterServiceClient()
     val users = client.queryUsers()

@@ -34,5 +34,4 @@ class SqlUserDao(template0: RichJdbcTemplate) extends BaseDao(template0) with Us
 
 
 
-
 }

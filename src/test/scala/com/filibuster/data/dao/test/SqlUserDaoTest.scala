@@ -1,10 +1,10 @@
-package com.filibuster.dao.test
+package com.filibuster.data.dao.test
 
 import junit.framework.TestCase
 import org.junit.Test
 import com.filibuster.model.User
 import org.junit.runner.RunWith
-import org.junit.Assert
+import org.junit.Assert.{assertTrue,fail}
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
 import com.filibuster.data.FilibusterDataManager
@@ -19,35 +19,47 @@ class SqlUserDaoTest extends TestCase
   @Autowired
   var filibusterDataManager:FilibusterDataManager = _
 
-  def setFilibusterDataManager(filibusterDataManager:FilibusterDataManager)
-  {
-    this.filibusterDataManager = filibusterDataManager
-  }
+  val user1 = User("testUser1", 1, "testuser1@testdomain.com", "no_salt", "some_hash")
+
 
   @Test
-  def testInsertUser =
+  def testCreateUser() =
   {
-    val username = "testUser"
-    val active = 1
-    val email = "testuser@testdomain.com"
-    val salt ="no salt"
-    val hash = "some_hash"
-
-    val user = User(username, active, email, salt, hash)
-
     try{
-      filibusterDataManager.insertUser(user)
-      Assert.assertTrue(true)
+      filibusterDataManager.insertUser(user1)
     }
     catch
     {
       case e:Exception =>
         e.printStackTrace()
-        Assert.assertTrue(false)
+        fail("expection throw")
     }
 
-
   }
+
+
+  @Test
+  def testUserExists() =
+  {
+
+    try{
+      filibusterDataManager.getUser(user1.username) match
+      {
+        case Some(user) => assertTrue(user.username == user1.username)
+        case None => fail(s"didn't fine ${user1.username} in database")
+      }
+
+    }
+    catch
+      {
+        case e:Exception =>
+          e.printStackTrace()
+          fail("exception thrown")
+      }
+  }
+
+
+
 
 }
 
