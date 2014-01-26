@@ -1,7 +1,7 @@
 package com.filibuster.controller
 
 import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.{RequestParam, ResponseBody, RequestMapping, RequestMethod}
+import org.springframework.web.bind.annotation._
 import com.gusto.filibuster.client._
 import java.security.Principal
 
@@ -20,7 +20,7 @@ class ChatController {
 
   @RequestMapping(value = Array("/say_something"), method = Array(RequestMethod.GET))
   @ResponseBody
-  def say_something(principal:Principal,
+  def say_something(@CookieValue("FILIBUSTER_LOGIN") persistentLoginCookie : String,
                     @RequestParam(value="name") name : String,
                     @RequestParam(value="group") group : String,
                     @RequestParam(value="words") words : String) = {

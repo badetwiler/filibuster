@@ -5,30 +5,30 @@ import com.filibuster.common.Logging
 
 object EntryPoint extends App with Logging{
 
-  val jettyServer = new JettyServer()
-
-  Runtime.getRuntime.addShutdownHook(new Thread
-  {
-    override def run() =
-    {
-      _logger.info("Shutting down..")
-
-      scala.util.control.Exception.ignoring(classOf[Throwable])
-      {
-        jettyServer.stop()
-      }
-
-      _logger.info("Shutdown.")
-    }
-  })
-
-  jettyServer.start()
-
-  _logger.info("Started.")
-
-  // TODO: Probably don't need to keep this around assuming we have at least one other non-daemon thread running.
-  while (true)
-  {
-    Thread.sleep(1000)
-  }
+//  val jettyServer = new JettyServer()
+//
+//  Runtime.getRuntime.addShutdownHook(new Thread
+//  {
+//    override def run() =
+//    {
+//      _logger.info("Shutting down..")
+//
+//      scala.util.control.Exception.ignoring(classOf[Throwable])
+//      {
+//        jettyServer.stop()
+//      }
+//
+//      _logger.info("Shutdown.")
+//    }
+//  })
+//
+//  jettyServer.start()
+//
+//  _logger.info("Started.")
+//
+//  // TODO: Probably don't need to keep this around assuming we have at least one other non-daemon thread running.
+//  while (true)
+//  {
+//    Thread.sleep(1000)
+//  }
 }

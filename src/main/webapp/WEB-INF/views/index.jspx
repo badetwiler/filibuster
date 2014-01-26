@@ -1,4 +1,11 @@
-<!DOCTYPE html>
+
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:spring="http://www.springframework.org/tags"
+          xmlns:sec="http://www.springframework.org/security/tags"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+          xmlns:form="http://www.springframework.org/tags/form" version="2.0">
+<jsp:directive.page contentType="text/html;charset=UTF-8"/>
 <html>
   <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
@@ -35,7 +42,7 @@
 	  <div id="username-div"> 
 	    <div class="input-group">
 	      <span class="input-group-addon">your name:</span>
-	      <input type="text" class="form-control" placeholder="name">
+	      <input type="text" class="form-control" placeholder="name"/>
 	    </div>
 	  </div>
 	</div>
@@ -57,7 +64,7 @@
 
 	<div class="row" id="words_input_group">
 	  <div class="input-group" id="user-input">
-	    <input type="text" class="form-control" placeholder="say something here" id="words-input">
+	    <input type="text" class="form-control" placeholder="say something here" id="words-input"/>
 	    <span class="input-group-btn">
               <button id="say-words-btn" class="btn btn-default" type="button">
 		<span class="glyphicon glyphicon-edit"></span>
@@ -77,7 +84,7 @@
         </div>
         <div class="input-group">
           <span class="input-group-addon"></span>
-          <input id="login-username" type="text" class="form-control" placeholder="username">
+          <input id="login-username" type="text" class="form-control" placeholder="username"/>
         </div>
       </div>
 
@@ -85,7 +92,7 @@
         <div class="login-input-title"> <h5><b>Password</b></h5> </div>
         <div class="input-group">
           <span class="input-group-addon"></span>
-          <input id="login-password" type="password" class="form-control" placeholder="password">
+          <input id="login-password" type="password" class="form-control" placeholder="password"/>
         </div>
       </div>
     </div>
@@ -96,22 +103,22 @@
         <div class="form-group">
             <div class="input-group">
                 <span class="input-group-addon">email address</span>
-                <input type="text" class="form-control" placeholder="email address" nam="email-address">
+                <input type="text" class="form-control" placeholder="email address" nam="email-address"/>
             </div>
 
             <div class="input-group">
                 <span class="input-group-addon">username</span>
-                <input type="text" class="form-control" placeholder="username" name="username">
+                <input type="text" class="form-control" placeholder="username" name="username"/>
             </div>
 
             <div class="input-group">
                 <span class="input-group-addon">password</span>
-                <input type="password" class="form-control" placeholder="password">
+                <input type="password" class="form-control" placeholder="password"/>
             </div>
 
             <div class="input-group">
                 <span class="input-group-addon">retype-password</span>
-                <input type="password" class="form-control" placeholder="retype password" name="password">
+                <input type="password" class="form-control" placeholder="retype password" name="password"/>
             </div>
             <button type="submit" formaction="/api/new-user" class="btn btn-default">Create</button>
             <button type="button" class="btn btn-default">Cancel</button>
@@ -121,3 +128,5 @@
 
   </body>
 </html>
+</jsp:root>
+
