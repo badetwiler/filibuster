@@ -28,7 +28,7 @@ class LoginController @Autowired() (dataManager:FilibusterDataManager)
   @Qualifier("authenticationManager")
   var authenticationManager: AuthenticationManager =  _
 
-  @RequestMapping(value = Array("/login.do"))
+  @RequestMapping(value = Array("/login"))
   def showLogin(loginForm: LoginForm) :String =
   {
     LOGIN_VIEW

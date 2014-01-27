@@ -29,13 +29,13 @@ class JettyServer extends Logging
     {
       _server = new Server(new InetSocketAddress("0.0.0.0", _port))
 
-      val indexLoc = new File(getClass.getClassLoader.getResource("src/main/webapp/views/index.jspx").getFile)
+      val indexLoc = new File(getClass.getClassLoader.getResource("src/main/webapp/views/index.html").getFile)
 
       val webrootPath = isRunningFromJar match {
         case true =>
-            new ClassPathResource("src/main/webapp/views/index.jspx").getURI.toString
+            new ClassPathResource("src/main/webapp/views/index.html").getURI.toString
         case false =>
-          val indexLoc = new File(getClass.getClassLoader.getResource("src/main/webapp/views/index.jspx").getFile)
+          val indexLoc = new File(getClass.getClassLoader.getResource("src/main/webapp/views/index.html").getFile)
           indexLoc.getParentFile.getAbsolutePath
       }
 
