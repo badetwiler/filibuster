@@ -12,7 +12,6 @@ import org.springframework.web.filter.DelegatingFilterProxy
 import javax.servlet.DispatcherType
 import java.util
 import org.springframework.web.context.ContextLoaderListener
-import org.apache.jasper.servlet.JspServlet
 
 
 class JettyServer extends Logging
@@ -29,13 +28,13 @@ class JettyServer extends Logging
     {
       _server = new Server(new InetSocketAddress("0.0.0.0", _port))
 
-      val indexLoc = new File(getClass.getClassLoader.getResource("src/main/webapp/views/index.html").getFile)
+      val indexLoc = new File(getClass.getClassLoader.getResource("webroot/static/index.html").getFile)
 
       val webrootPath = isRunningFromJar match {
         case true =>
-            new ClassPathResource("src/main/webapp/views/index.html").getURI.toString
+          new ClassPathResource("webroot/static/index.html").getURI.toString
         case false =>
-          val indexLoc = new File(getClass.getClassLoader.getResource("src/main/webapp/views/index.html").getFile)
+          val indexLoc = new File(getClass.getClassLoader.getResource("webroot/static/index.html").getFile)
           indexLoc.getParentFile.getAbsolutePath
       }
 
@@ -45,19 +44,12 @@ class JettyServer extends Logging
       servletContextHandler.setWelcomeFiles(Array("welcome.html"))
       servletContextHandler.addFilter(new FilterHolder(new DelegatingFilterProxy("springSecurityFilterChain")), "/*", util.EnumSet.allOf(classOf[DispatcherType]))
       servletContextHandler.addEventListener(new ContextLoaderListener())
-      servletContextHandler.setInitParameter("contextConfigLocation", "classpath:filibuster-servlet.xml")
+      servletContextHandler.setInitParameter("contextConfigLocation", "classpath:application-context.xml")
 
 
       val springServletHolder = new ServletHolder(classOf[DispatcherServlet])
-      springServletHolder.setInitParameter("contextConfigLocation", "classpath:web-context.xml")
+      springServletHolder.setInitParameter("contextConfigLocation", "classpath:application-context.xml")
       springServletHolder.setInitOrder(10) // A positive value here indicates eagerly load; a negative value is lazy
-
-      val jspServletHolder = new ServletHolder(new JspServlet())
-      jspServletHolder.setInitParameter("keepgenerated", "true")
-      jspServletHolder.setInitParameter("scratchDir", "views/generated")
-      jspServletHolder.setInitOrder(12)
-
-
 
 
       val staticContentServlet = new ServletHolder(new DefaultServlet {
@@ -85,8 +77,7 @@ class JettyServer extends Logging
       staticContentServlet.setInitOrder(1)
 
       servletContextHandler.addServlet(staticContentServlet, "/static/*")
-      servletContextHandler.addServlet(springServletHolder, "*.do")
-//      servletContextHandler.addServlet(jspServletHolder, "*.jspx")
+      servletContextHandler.addServlet(springServletHolder, "/*")
 
 
       _server.start()
@@ -138,3 +129,4 @@ class JettyServer extends Logging
 
 
 }
+
