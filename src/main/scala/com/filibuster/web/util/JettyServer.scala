@@ -28,32 +28,32 @@ class JettyServer extends Logging
     {
       _server = new Server(new InetSocketAddress("0.0.0.0", _port))
 
-      val indexLoc = new File(getClass.getClassLoader.getResource("webroot/static/index.html").getFile)
+      val indexLoc = new File(getClass.getClassLoader.getResource("webapp/static/views/index.html").getFile)
 
       val webrootPath = isRunningFromJar match {
         case true =>
-          new ClassPathResource("webroot/static/index.html").getURI.toString
+          new ClassPathResource("webapp/static/views/index.html").getURI.toString
         case false =>
-          val indexLoc = new File(getClass.getClassLoader.getResource("webroot/static/index.html").getFile)
+          val indexLoc = new File(getClass.getClassLoader.getResource("webapp/static/views/index.html").getFile)
           indexLoc.getParentFile.getAbsolutePath
       }
 
       _logger.info("Webroot: " + webrootPath + ", is running from jar: " + isRunningFromJar)
 
       val servletContextHandler: ServletContextHandler = new ServletContextHandler(_server, "/", true, false)
-      servletContextHandler.setWelcomeFiles(Array("welcome.html"))
+      servletContextHandler.setWelcomeFiles(Array("webapp/static/welcome.html"))
       servletContextHandler.addFilter(new FilterHolder(new DelegatingFilterProxy("springSecurityFilterChain")), "/*", util.EnumSet.allOf(classOf[DispatcherType]))
       servletContextHandler.addEventListener(new ContextLoaderListener())
       servletContextHandler.setInitParameter("contextConfigLocation", "classpath:application-context.xml")
 
 
       val springServletHolder = new ServletHolder(classOf[DispatcherServlet])
-      springServletHolder.setInitParameter("contextConfigLocation", "classpath:application-context.xml")
+      springServletHolder.setInitParameter("contextConfigLocation", "classpath:web-context.xml")
       springServletHolder.setInitOrder(10) // A positive value here indicates eagerly load; a negative value is lazy
 
 
       val staticContentServlet = new ServletHolder(new DefaultServlet {
-        private final val resourcesPrefix = "/webroot"
+        private final val resourcesPrefix = "/webapp"
 
         override def getResource(pathInContext:String):Resource =
         {
