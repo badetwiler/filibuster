@@ -36,22 +36,12 @@ class LoginController @Autowired() (dataManager:FilibusterDataManager)
 
   @RequestMapping(value = Array("/login"), method = Array(RequestMethod.POST))
   def login(request:HttpServletRequest,
-                  response: HttpServletResponse,
-                  @Valid loginForm: LoginForm,
-                  result: BindingResult) :String =
+            response: HttpServletResponse,
+            @RequestParam(value="username") username : String,
+            @RequestParam(value="password") password : String): String =
   {
 
-    val j_username = loginForm.getJ_username
-    val j_password = loginForm.getJ_password
-
-    if(!j_username.equals(j_password)) {
-      result.reject("login.fail","Bad username/password")
-    }
-    if(result.hasErrors) {
-      return LOGIN_VIEW
-    }
-
-    val token:Authentication = new UsernamePasswordAuthenticationToken(j_username, j_password)
+    val token:Authentication = new UsernamePasswordAuthenticationToken(username, password)
 
     try
     {
@@ -62,9 +52,8 @@ class LoginController @Autowired() (dataManager:FilibusterDataManager)
     }
     catch
     {
-      case error:AuthenticationException =>
-        result.reject("login.fail", error.getMessage);
-        LOGIN_VIEW
+      case error:AuthenticationException => LOGIN_VIEW
+
     }
 
   }

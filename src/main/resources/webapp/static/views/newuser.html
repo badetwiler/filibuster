@@ -1,17 +1,29 @@
+<!DOCTYPE html>
 <html>
-    <head>
-        <title>Messages : List</title>
-    </head>
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+</head>
+
     <body>
         <div class="container">
-            <form action="login" method="post">
+            <form action="create-user" method="post">
+
+                <label for="email_address">Email Address</label>
+                <input type="text" id="email_address" name="email_address"/>
+
                 <label for="username">Username</label>
                 <input type="text" id="username" name="username"/>
+
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password"/>
+
+                <label for="re_password">Re-Type Password</label>
+                <input type="password" id="re_password" name="re_password"/>
+
                 <div class="form-actions">
                     <input id="submit" class="btn" name="submit" type="submit" value="Login"/>
                 </div>
+
             </form>
         </div>
     </body>

@@ -8,26 +8,20 @@
            http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
 
-    <http>
+    <http access-denied-page="/login?authorization_error=true">
         <intercept-url pattern="/chat/**" access="ROLE_USER" />
         <form-login login-page="/login"
                     default-target-url="/welcome"
-                    authentication-failure-url="/loginfailed" />
+                    authentication-failure-url="/login?authorizatoin_error=true" />
         <logout logout-success-url="/logout" />
 
-        <!--<remember-me services-ref="rememberMeServices"/>-->
-
-
-
     </http>
-
 
     <authentication-manager alias="authenticationManager">
         <authentication-provider user-service-ref="filibusterUserDetailsService">
           <password-encoder ref="passwordEncoder"/>
         </authentication-provider>
     </authentication-manager>
-
 
     <!--<beans:bean name="tokenRepository" class="org.springframework.security.web.authentication.rememberme.InMemoryTokenRepositoryImpl"/>-->
 
