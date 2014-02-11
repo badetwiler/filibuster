@@ -21,8 +21,8 @@ class LoginController @Autowired() (dataManager:FilibusterDataManager)
   private val LOGIN_VIEW:String = "login"
 
   //implement this for auto redirect after login
-  //@Autowired()
-  //var successHandler:AuthenticationSuccessHandler = _
+  @Autowired()
+  var successHandler:AuthenticationSuccessHandler = _
 
   @Autowired()
   @Qualifier("authenticationManager")
@@ -47,12 +47,13 @@ class LoginController @Autowired() (dataManager:FilibusterDataManager)
     {
       val authentication:Authentication = authenticationManager.authenticate(token)
       SecurityContextHolder.getContext.setAuthentication(authentication)
-      //successHandler.onAuthenticationSuccess(request, response, authentication)
+      response.sendRedirect("/")
       null
     }
     catch
     {
-      case error:AuthenticationException => LOGIN_VIEW
+      case error:AuthenticationException => LOGIN_VIEW + "?authorization_error=true"
+      case _ => LOGIN_VIEW + "?authorization_error=true"
 
     }
 

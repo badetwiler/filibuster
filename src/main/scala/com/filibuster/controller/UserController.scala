@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.{RequestParam, ResponseBody, Requ
 import com.filibuster.data.FilibusterDataManager
 import org.springframework.beans.factory.annotation.Autowired
 import com.filibuster.model.User
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 
 @Controller
 class UserController @Autowired() (dataManager:FilibusterDataManager)
@@ -21,8 +22,10 @@ class UserController @Autowired() (dataManager:FilibusterDataManager)
                     @RequestParam(value="username")      username : String,
                     @RequestParam(value="password")      password : String) = {
 
-      dataManager.insertUser(User(username, 1, email_address, "no_salt", password))
 
+      val passwordEncoder = new BCryptPasswordEncoder
+      val hashedPassword = passwordEncoder.encode(password)
+      dataManager.insertUser(User(username, 1, email_address, "no_salt", hashedPassword))
 
   }
 

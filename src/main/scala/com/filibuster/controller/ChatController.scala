@@ -20,8 +20,7 @@ class ChatController {
 
   @RequestMapping(value = Array("/say_something"), method = Array(RequestMethod.GET))
   @ResponseBody
-  def say_something(@CookieValue("FILIBUSTER_LOGIN") persistentLoginCookie : String,
-                    @RequestParam(value="name") name : String,
+  def say_something(@RequestParam(value="name") name : String,
                     @RequestParam(value="group") group : String,
                     @RequestParam(value="words") words : String) = {
 
