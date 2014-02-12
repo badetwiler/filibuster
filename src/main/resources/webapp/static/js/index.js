@@ -34,7 +34,7 @@ function initialize() {
 $(document).ready(function() {
   $("body").css({"overflow-y":"hidden"})
   initialize()
-  show_login_dialog()
+  //show_login_dialog()
 
 });
 

@@ -45,15 +45,15 @@ class LoginController @Autowired() (dataManager:FilibusterDataManager)
 
     try
     {
-      val authentication:Authentication = authenticationManager.authenticate(token)
-      SecurityContextHolder.getContext.setAuthentication(authentication)
-      response.sendRedirect("/")
-      null
+          val authentication:Authentication = authenticationManager.authenticate(token)
+          SecurityContextHolder.getContext.setAuthentication(authentication)
+          response.sendRedirect("/")
+          null
     }
     catch
     {
-      case error:AuthenticationException => LOGIN_VIEW + "?authorization_error=true"
-      case _ => LOGIN_VIEW + "?authorization_error=true"
+          case error:AuthenticationException => LOGIN_VIEW + "?authorization_error=true"
+          case _ => LOGIN_VIEW + "?authorization_error=true"
 
     }
 
