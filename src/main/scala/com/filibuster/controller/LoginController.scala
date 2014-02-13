@@ -29,7 +29,7 @@ class LoginController @Autowired() (dataManager:FilibusterDataManager)
   var authenticationManager: AuthenticationManager =  _
 
   @RequestMapping(value = Array("/login"))
-  def showLogin(loginForm: LoginForm) :String =
+  def showLogin(@RequestParam(value="error", required = false) error: String) :String =
   {
     LOGIN_VIEW
   }
@@ -45,15 +45,17 @@ class LoginController @Autowired() (dataManager:FilibusterDataManager)
 
     try
     {
+
           val authentication:Authentication = authenticationManager.authenticate(token)
           SecurityContextHolder.getContext.setAuthentication(authentication)
-          response.sendRedirect("/")
+          response.sendRedirect("/home")
           null
     }
     catch
     {
-          case error:AuthenticationException => LOGIN_VIEW + "?authorization_error=true"
-          case _ => LOGIN_VIEW + "?authorization_error=true"
+          case e:Exception =>
+              response.sendRedirect("login?error=1")
+              null
 
     }
 

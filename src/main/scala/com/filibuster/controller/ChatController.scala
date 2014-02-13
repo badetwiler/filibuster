@@ -18,6 +18,9 @@ import java.security.Principal
 class ChatController {
 
 
+
+
+
   @RequestMapping(value = Array("/say_something"), method = Array(RequestMethod.GET))
   @ResponseBody
   def say_something(@RequestParam(value="name") name : String,

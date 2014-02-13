@@ -12,16 +12,17 @@ class UserController @Autowired() (dataManager:FilibusterDataManager)
 {
 
   @RequestMapping(value = Array("/new-user"), method = Array(RequestMethod.GET))
-  def new_user () = {
-    "newuser"
+  def new_user () =
+  {
+      "newuser"
   }
 
 
   @RequestMapping(value = Array("/create-user"), method = Array(RequestMethod.POST))
   def create_user (@RequestParam(value="email_address") email_address : String,
                     @RequestParam(value="username")      username : String,
-                    @RequestParam(value="password")      password : String) = {
-
+                    @RequestParam(value="password")      password : String) =
+  {
 
       val passwordEncoder = new BCryptPasswordEncoder
       val hashedPassword = passwordEncoder.encode(password)

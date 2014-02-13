@@ -10,8 +10,10 @@
 
     <http access-denied-page="/login?authorization_error=true">
         <intercept-url pattern="/chat/**" access="ROLE_USER" />
+        <intercept-url pattern="/home" access="ROLE_USER" />
         <form-login login-page="/login" />
-        <logout logout-success-url="/logout" />
+        <logout logout-url="/logout" />
+        <logout logout-success-url="/index"/>
 
     </http>
 
@@ -35,7 +37,7 @@
 
     <beans:bean id="authenticationSuccessHandler"
                 class="org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler" >
-        <beans:property name="defaultTargetUrl" value="/" />
+        <beans:property name="defaultTargetUrl" value="/home" />
     </beans:bean>
 
 
@@ -48,37 +50,3 @@
 
 </beans:beans>
 
-
-
-
-
-<!--<http use-expressions="true" entry-point-ref="socialAuthenticationEntryPoint">-->
-    <!--<custom-filter position="PRE_AUTH_FILTER" ref="socialAuthenticationFilter" />-->
-    <!--<logout logout-url="/signout" delete-cookies="JSESSIONID" />-->
-    <!--<remember-me services-ref="rememberMeServices" />-->
-    <!--&lt;!&ndash; Configure these elements to secure URIs in your application &ndash;&gt;-->
-    <!--<intercept-url pattern="/favicon.ico" access="permitAll" />-->
-    <!--<intercept-url pattern="/robots.txt" access="permitAll" />-->
-    <!--<intercept-url pattern="/resources/**" access="permitAll" />-->
-    <!--<intercept-url pattern="/signin" access="permitAll"-->
-                   <!--requires-channel="#{environment['application.secureChannel']}" />-->
-    <!--<intercept-url pattern="/signin/*" access="permitAll"-->
-                   <!--requires-channel="#{environment['application.secureChannel']}" />-->
-    <!--<intercept-url pattern="/presentation/**" access="hasRole('ROLE_USER')"-->
-                   <!--requires-channel="#{environment['application.secureChannel']}" />-->
-    <!--<intercept-url pattern="/myAccount/**" access="hasRole('ROLE_USER')"-->
-                   <!--requires-channel="#{environment['application.secureChannel']}" />-->
-    <!--<intercept-url pattern="/myPost/**" access="hasRole('ROLE_AUTHOR')"-->
-                   <!--requires-channel="#{environment['application.secureChannel']}" />-->
-    <!--<intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"-->
-                   <!--requires-channel="#{environment['application.secureChannel']}" />-->
-    <!--<intercept-url pattern="/**" access="permitAll" />-->
-
-<!--</http>-->
-
-<!--<authentication-manager alias="authenticationManager">-->
-    <!--<authentication-provider ref="socialAuthenticationProvider" />-->
-    <!--<authentication-provider ref="rememberMeAuthenticationProvider" />-->
-<!--</authentication-manager>-->
-
-<!--</beans:beans>-->

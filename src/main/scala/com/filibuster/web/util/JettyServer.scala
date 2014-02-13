@@ -28,20 +28,20 @@ class JettyServer extends Logging
     {
       _server = new Server(new InetSocketAddress("0.0.0.0", _port))
 
-      val indexLoc = new File(getClass.getClassLoader.getResource("webapp/static/views/index.html").getFile)
+      val indexLoc = new File(getClass.getClassLoader.getResource("webapp/static/views/home.html").getFile)
 
       val webrootPath = isRunningFromJar match {
         case true =>
-          new ClassPathResource("webapp/static/views/index.html").getURI.toString
+          new ClassPathResource("webapp/static/views/home.html").getURI.toString
         case false =>
-          val indexLoc = new File(getClass.getClassLoader.getResource("webapp/static/views/index.html").getFile)
+          val indexLoc = new File(getClass.getClassLoader.getResource("webapp/static/views/home.html").getFile)
           indexLoc.getParentFile.getAbsolutePath
       }
 
       _logger.info("Webroot: " + webrootPath + ", is running from jar: " + isRunningFromJar)
 
       val servletContextHandler: ServletContextHandler = new ServletContextHandler(_server, "/", true, false)
-      servletContextHandler.setWelcomeFiles(Array("webapp/static/welcome.html"))
+      servletContextHandler.setWelcomeFiles(Array("webapp/static/views/index.html"))
       servletContextHandler.addFilter(new FilterHolder(new DelegatingFilterProxy("springSecurityFilterChain")), "/*", util.EnumSet.allOf(classOf[DispatcherType]))
       servletContextHandler.addEventListener(new ContextLoaderListener())
       servletContextHandler.setInitParameter("contextConfigLocation", "classpath:application-context.xml")
