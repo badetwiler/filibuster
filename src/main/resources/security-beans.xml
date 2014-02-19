@@ -16,7 +16,7 @@
     <import resource="classpath:data-beans.xml" />
 
     <http pattern="/oauth/token" create-session="stateless"
-          authentication-manager-ref="authenticationManager"
+          authentication-manager-ref="clientAuthenticationManager"
           xmlns="http://www.springframework.org/schema/security" >
         <intercept-url pattern="/oauth/token" access="IS_AUTHENTICATED_FULLY" />
         <anonymous enabled="false" />
@@ -25,11 +25,11 @@
         <access-denied-handler ref="oauthAccessDeniedHandler" />
     </http>
 
-
     <bean id="clientCredentialsTokenEndpointFilter"
           class="org.springframework.security.oauth2.provider.client.ClientCredentialsTokenEndpointFilter">
-        <property name="authenticationManager" ref="authenticationManager" />
+        <property name="authenticationManager" ref="clientAuthenticationManager" />
     </bean>
+
 
     <!--<authentication-manager alias="authenticationManager"-->
                             <!--xmlns="http://www.springframework.org/schema/security">-->
@@ -46,12 +46,10 @@
         <authentication-provider user-service-ref="clientDetailsUserService" />
     </authentication-manager>
 
-    <authentication-manager alias="authenticationManager"
-                            xmlns="http://www.springframework.org/schema/security">
+    <authentication-manager alias="userAuthenticationManager" xmlns="http://www.springframework.org/schema/security">
         <authentication-provider>
             <user-service id="userDetailsService">
-                <user name="marissa" password="koala" authorities="ROLE_USER" />
-                <user name="paul" password="emu" authorities="ROLE_USER" />
+                <user name="ben" password="ben" authorities="ROLE_USER" />
             </user-service>
         </authentication-provider>
     </authentication-manager>
@@ -64,6 +62,7 @@
         <property name="typeName" value="Basic" />
     </bean>
 
+    <bean id="oauthAuthenticationEntryPoint" class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint" />
 
     <oauth:client-details-service id="clientDetails">
         <oauth:client client-id="my-trusted-client"
@@ -80,15 +79,8 @@
         <oauth:password authentication-manager-ref="userAuthenticationManager"/>
     </oauth:authorization-server>
 
-    <authentication-manager id="userAuthenticationManager"
-                            xmlns="http://www.springframework.org/schema/security">
-        <authentication-provider  ref="customUserAuthenticationProvider">
-        </authentication-provider>
-    </authentication-manager>
 
-    <bean id="customUserAuthenticationProvider"
-          class="demo.oauth2.authentication.security.CustomUserAuthenticationProvider">
-    </bean>
+
 
     <bean id="tokenServices"
           class="org.springframework.security.oauth2.provider.token.DefaultTokenServices">
@@ -98,7 +90,7 @@
         <property name="clientDetailsService" ref="clientDetails" />
     </bean>
 
-    <bean id="oauthAuthenticationEntryPoint" class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint" />
+
 
     <bean id="tokenStore" class="org.springframework.security.oauth2.provider.token.InMemoryTokenStore" />
 
