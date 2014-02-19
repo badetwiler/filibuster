@@ -4,13 +4,10 @@ import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.{RequestParam, ResponseBody, RequestMapping, RequestMethod}
 import org.springframework.beans.factory.annotation.{Qualifier, Autowired}
 import com.filibuster.data.FilibusterDataManager
-import com.filibuster.model.User
-import com.filibuster.data.model.LoginForm
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler
 import org.springframework.security.authentication.{UsernamePasswordAuthenticationToken, AuthenticationManager}
 import javax.servlet.http.{HttpServletRequest, HttpServletResponse}
-import org.springframework.validation.BindingResult
-import javax.validation.Valid
+
 import org.springframework.security.core.{AuthenticationException, Authentication}
 import org.springframework.security.core.context.SecurityContextHolder
 
@@ -34,6 +31,7 @@ class LoginController @Autowired() (dataManager:FilibusterDataManager)
     LOGIN_VIEW
   }
 
+
   @RequestMapping(value = Array("/login"), method = Array(RequestMethod.POST))
   def login(request:HttpServletRequest,
             response: HttpServletResponse,
@@ -41,25 +39,36 @@ class LoginController @Autowired() (dataManager:FilibusterDataManager)
             @RequestParam(value="password") password : String): String =
   {
 
+    login_successful(username,password) match
+    {
+        case true => response.sendRedirect("/home")
+
+        case false => response.sendRedirect("/login")
+
+    }
+
+    null
+
+  }
+
+  private def login_successful(username:String, password:String):Boolean =
+  {
     val token:Authentication = new UsernamePasswordAuthenticationToken(username, password)
 
     try
     {
 
-          val authentication:Authentication = authenticationManager.authenticate(token)
-          SecurityContextHolder.getContext.setAuthentication(authentication)
-          response.sendRedirect("/home")
-          null
+        val authentication:Authentication = authenticationManager.authenticate(token)
+        SecurityContextHolder.getContext.setAuthentication(authentication)
+        true
     }
     catch
-    {
-          case e:Exception =>
-              response.sendRedirect("login?error=1")
-              null
-
-    }
+      {
+          case e:Exception => false
+      }
 
   }
+
 
 
 }
