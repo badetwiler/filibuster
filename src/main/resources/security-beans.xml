@@ -1,52 +1,113 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<beans:beans     xmlns="http://www.springframework.org/schema/security"
-                 xmlns:beans="http://www.springframework.org/schema/beans"
-                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                 xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
-           http://www.springframework.org/schema/security
-           http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+<?xml version="1.0" encoding="UTF-8" ?>
+    <beans xmlns="http://www.springframework.org/schema/beans"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns:oauth="http://www.springframework.org/schema/security/oauth2"
+           xmlns:sec="http://www.springframework.org/schema/security"
+           xmlns:mvc="http://www.springframework.org/schema/mvc"
+           xmlns:context="http://www.springframework.org/schema/context"
+           xsi:schemaLocation="http://www.springframework.org/schema/security/oauth2
+                               http://www.springframework.org/schema/security/spring-security-oauth2-2.0.xsd
+                               http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+                               http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+                               http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+                               http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 
 
-    <http access-denied-page="/login?authorization_error=true">
-        <intercept-url pattern="/chat/**" access="ROLE_USER" />
-        <intercept-url pattern="/home" access="ROLE_USER" />
-        <form-login login-page="/login" />
-        <logout logout-url="/logout" />
-        <logout logout-success-url="/index"/>
+    <import resource="classpath:data-beans.xml" />
 
+    <http pattern="/oauth/token" create-session="stateless"
+          authentication-manager-ref="authenticationManager"
+          xmlns="http://www.springframework.org/schema/security" >
+        <intercept-url pattern="/oauth/token" access="IS_AUTHENTICATED_FULLY" />
+        <anonymous enabled="false" />
+        <http-basic entry-point-ref="clientAuthenticationEntryPoint"/>
+        <custom-filter ref="clientCredentialsTokenEndpointFilter" 		before="BASIC_AUTH_FILTER" />
+        <access-denied-handler ref="oauthAccessDeniedHandler" />
     </http>
 
-    <authentication-manager alias="authenticationManager">
-        <authentication-provider user-service-ref="filibusterUserDetailsService">
-          <password-encoder ref="passwordEncoder"/>
+
+    <bean id="clientCredentialsTokenEndpointFilter"
+          class="org.springframework.security.oauth2.provider.client.ClientCredentialsTokenEndpointFilter">
+        <property name="authenticationManager" ref="authenticationManager" />
+    </bean>
+
+    <!--<authentication-manager alias="authenticationManager"-->
+                            <!--xmlns="http://www.springframework.org/schema/security">-->
+        <!--<authentication-provider user-service-ref="clientDetailsUserService" />-->
+    <!--</authentication-manager>-->
+
+    <bean id="clientDetailsUserService"
+          class="org.springframework.security.oauth2.provider.client.ClientDetailsUserDetailsService">
+        <constructor-arg ref="clientDetails" />
+    </bean>
+
+    <authentication-manager id="clientAuthenticationManager"
+                            xmlns="http://www.springframework.org/schema/security">
+        <authentication-provider user-service-ref="clientDetailsUserService" />
+    </authentication-manager>
+
+    <authentication-manager alias="authenticationManager"
+                            xmlns="http://www.springframework.org/schema/security">
+        <authentication-provider>
+            <user-service id="userDetailsService">
+                <user name="marissa" password="koala" authorities="ROLE_USER" />
+                <user name="paul" password="emu" authorities="ROLE_USER" />
+            </user-service>
         </authentication-provider>
     </authentication-manager>
 
-    <!--<beans:bean name="tokenRepository" class="org.springframework.security.web.authentication.rememberme.InMemoryTokenRepositoryImpl"/>-->
+    <!--<bean id="clientDetails" class="demo.oauth2.authentication.security.ClientDetailsServiceImpl"></bean>-->
 
-    <!--<beans:bean name="rememberMeServices"-->
-          <!--class="org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices">-->
-        <!--<beans:constructor-arg value="myAppKey"/>-->
-        <!--<beans:constructor-arg ref="filibusterUserDetailsService"/>-->
-        <!--<beans:constructor-arg ref="tokenRepository"/>-->
-        <!--<beans:property name="cookieName" value="remember-me"/>-->
-        <!--<beans:property name="tokenLength" value="32"/>-->
-        <!--<beans:property name="parameter" value="remember-me-parameter"/>-->
-    <!--</beans:bean>-->
-
-    <beans:bean id="authenticationSuccessHandler"
-                class="org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler" >
-        <beans:property name="defaultTargetUrl" value="/home" />
-    </beans:bean>
+    <bean id="clientAuthenticationEntryPoint"
+          class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">
+        <property name="realmName" value="springsec/client" />
+        <property name="typeName" value="Basic" />
+    </bean>
 
 
-    <beans:bean name="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+    <oauth:client-details-service id="clientDetails">
+        <oauth:client client-id="my-trusted-client"
+                      authorized-grant-types="password,authorization_code,refresh_token,implicit"
+                      authorities="ROLE_CLIENT, ROLE_TRUSTED_CLIENT" scope="read,write,trust"
+                      access-token-validity="60" />
+    </oauth:client-details-service>
 
-    <beans:bean name="filibusterUserDetailsService" class="com.filibuster.service.FilibusterUserDetailsService" >
-        <beans:constructor-arg ref="filibusterDataManager" />
-    </beans:bean>
+    <oauth:authorization-server client-details-service-ref="clientDetails" token-services-ref="tokenServices">
+        <oauth:authorization-code />
+        <oauth:implicit/>
+        <oauth:refresh-token/>
+        <oauth:client-credentials />
+        <oauth:password authentication-manager-ref="userAuthenticationManager"/>
+    </oauth:authorization-server>
+
+    <authentication-manager id="userAuthenticationManager"
+                            xmlns="http://www.springframework.org/schema/security">
+        <authentication-provider  ref="customUserAuthenticationProvider">
+        </authentication-provider>
+    </authentication-manager>
+
+    <bean id="customUserAuthenticationProvider"
+          class="demo.oauth2.authentication.security.CustomUserAuthenticationProvider">
+    </bean>
+
+    <bean id="tokenServices"
+          class="org.springframework.security.oauth2.provider.token.DefaultTokenServices">
+        <property name="tokenStore" ref="tokenStore" />
+        <property name="supportRefreshToken" value="true" />
+        <property name="accessTokenValiditySeconds" value="900000000"/>
+        <property name="clientDetailsService" ref="clientDetails" />
+    </bean>
+
+    <bean id="oauthAuthenticationEntryPoint" class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint" />
+
+    <bean id="tokenStore" class="org.springframework.security.oauth2.provider.token.InMemoryTokenStore" />
+
+    <bean id="oauthAccessDeniedHandler" class="org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler" />
+
+    <bean name="filibusterUserDetailsService" class="com.filibuster.service.FilibusterUserDetailsService" >
+        <constructor-arg ref="filibusterDataManager" />
+    </bean>
 
 
-</beans:beans>
+</beans>
 
