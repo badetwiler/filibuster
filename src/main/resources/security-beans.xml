@@ -6,7 +6,7 @@
            xmlns:mvc="http://www.springframework.org/schema/mvc"
            xmlns:context="http://www.springframework.org/schema/context"
            xsi:schemaLocation="http://www.springframework.org/schema/security/oauth2
-                               http://www.springframework.org/schema/security/spring-security-oauth2-2.0.xsd
+                               http://www.springframework.org/schema/security/spring-security-oauth2.xsd
                                http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
                                http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
                                http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
@@ -15,13 +15,12 @@
 
     <import resource="classpath:data-beans.xml" />
 
-    <http pattern="/oauth/token" create-session="stateless"
-          authentication-manager-ref="clientAuthenticationManager"
+    <http pattern="/oauth/token" create-session="never" authentication-manager-ref="clientAuthenticationManager"
           xmlns="http://www.springframework.org/schema/security" >
         <intercept-url pattern="/oauth/token" access="IS_AUTHENTICATED_FULLY" />
         <anonymous enabled="false" />
         <http-basic entry-point-ref="clientAuthenticationEntryPoint"/>
-        <custom-filter ref="clientCredentialsTokenEndpointFilter" 		before="BASIC_AUTH_FILTER" />
+        <custom-filter ref="clientCredentialsTokenEndpointFilter" before="BASIC_AUTH_FILTER" />
         <access-denied-handler ref="oauthAccessDeniedHandler" />
     </http>
 
@@ -31,30 +30,15 @@
     </bean>
 
 
-    <!--<authentication-manager alias="authenticationManager"-->
-                            <!--xmlns="http://www.springframework.org/schema/security">-->
-        <!--<authentication-provider user-service-ref="clientDetailsUserService" />-->
-    <!--</authentication-manager>-->
+    <authentication-manager id="clientAuthenticationManager" xmlns="http://www.springframework.org/schema/security">
+        <authentication-provider user-service-ref="clientDetailsUserService" />
+    </authentication-manager>
 
     <bean id="clientDetailsUserService"
           class="org.springframework.security.oauth2.provider.client.ClientDetailsUserDetailsService">
         <constructor-arg ref="clientDetails" />
     </bean>
 
-    <authentication-manager id="clientAuthenticationManager"
-                            xmlns="http://www.springframework.org/schema/security">
-        <authentication-provider user-service-ref="clientDetailsUserService" />
-    </authentication-manager>
-
-    <authentication-manager alias="userAuthenticationManager" xmlns="http://www.springframework.org/schema/security">
-        <authentication-provider>
-            <user-service id="userDetailsService">
-                <user name="ben" password="ben" authorities="ROLE_USER" />
-            </user-service>
-        </authentication-provider>
-    </authentication-manager>
-
-    <!--<bean id="clientDetails" class="demo.oauth2.authentication.security.ClientDetailsServiceImpl"></bean>-->
 
     <bean id="clientAuthenticationEntryPoint"
           class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">
@@ -62,25 +46,29 @@
         <property name="typeName" value="Basic" />
     </bean>
 
+    <authentication-manager id="userAuthenticationManager" xmlns="http://www.springframework.org/schema/security">
+        <authentication-provider>
+            <user-service id="userDetailsService">
+                <user name="ben" password="ben" authorities="ROLE_USER" />
+            </user-service>
+        </authentication-provider>
+    </authentication-manager>
+
     <bean id="oauthAuthenticationEntryPoint" class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint" />
 
     <oauth:client-details-service id="clientDetails">
         <oauth:client client-id="my-trusted-client"
+                      secret="secret"
                       authorized-grant-types="password,authorization_code,refresh_token,implicit"
-                      authorities="ROLE_CLIENT, ROLE_TRUSTED_CLIENT" scope="read,write,trust"
+                      authorities="ROLE_CLIENT" scope="read,write,trust"
                       access-token-validity="60" />
     </oauth:client-details-service>
 
-    <oauth:authorization-server client-details-service-ref="clientDetails" token-services-ref="tokenServices">
-        <oauth:authorization-code />
-        <oauth:implicit/>
-        <oauth:refresh-token/>
-        <oauth:client-credentials />
+    <oauth:authorization-server
+            client-details-service-ref="clientDetails"
+            token-services-ref="tokenServices">
         <oauth:password authentication-manager-ref="userAuthenticationManager"/>
     </oauth:authorization-server>
-
-
-
 
     <bean id="tokenServices"
           class="org.springframework.security.oauth2.provider.token.DefaultTokenServices">
@@ -89,7 +77,6 @@
         <property name="accessTokenValiditySeconds" value="900000000"/>
         <property name="clientDetailsService" ref="clientDetails" />
     </bean>
-
 
 
     <bean id="tokenStore" class="org.springframework.security.oauth2.provider.token.InMemoryTokenStore" />
