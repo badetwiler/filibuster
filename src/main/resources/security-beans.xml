@@ -17,12 +17,26 @@
 
     <http pattern="/oauth/token" create-session="never" authentication-manager-ref="clientAuthenticationManager"
           xmlns="http://www.springframework.org/schema/security" >
-        <intercept-url pattern="/oauth/token" access="IS_AUTHENTICATED_FULLY" />
-        <anonymous enabled="false" />
+        <intercept-url pattern="/**" method="GET" access="ROLE_DENY" />
+        <!--<intercept-url pattern="/**" method="PUT" access="ROLE_DENY" />-->
+        <!--<intercept-url pattern="/**" method="DELETE" access="ROLE_DENY" />-->
+        <!--<intercept-url pattern="/**" access="IS_AUTHENTICATED_FULLY" />-->
+        <!--<anonymous enabled="false" />-->
         <http-basic entry-point-ref="clientAuthenticationEntryPoint"/>
         <custom-filter ref="clientCredentialsTokenEndpointFilter" before="BASIC_AUTH_FILTER" />
         <access-denied-handler ref="oauthAccessDeniedHandler" />
     </http>
+
+    <http pattern="/resources/**" create-session="never"  authentication-manager-ref="userAuthenticationManager"
+          entry-point-ref="oauthAuthenticationEntryPoint"
+          access-decision-manager-ref="accessDecisionManager"
+          xmlns="http://www.springframework.org/schema/security">
+        <anonymous enabled="false" />
+        <intercept-url pattern="/**" access="ROLE_USER,SCOPE_READ" />
+        <custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" />
+        <access-denied-handler ref="oauthAccessDeniedHandler" />
+    </http>
+
 
     <bean id="clientCredentialsTokenEndpointFilter"
           class="org.springframework.security.oauth2.provider.client.ClientCredentialsTokenEndpointFilter">
@@ -61,7 +75,7 @@
                       secret="secret"
                       authorized-grant-types="password,authorization_code,refresh_token,implicit"
                       authorities="ROLE_CLIENT" scope="read,write,trust"
-                      access-token-validity="60" />
+                      access-token-validity="600" />
     </oauth:client-details-service>
 
     <oauth:authorization-server
@@ -70,6 +84,8 @@
         <oauth:password authentication-manager-ref="userAuthenticationManager"/>
     </oauth:authorization-server>
 
+	<oauth:resource-server id="resourceServerFilter" token-services-ref="tokenServices" />
+
     <bean id="tokenServices"
           class="org.springframework.security.oauth2.provider.token.DefaultTokenServices">
         <property name="tokenStore" ref="tokenStore" />
@@ -77,6 +93,18 @@
         <property name="accessTokenValiditySeconds" value="900000000"/>
         <property name="clientDetailsService" ref="clientDetails" />
     </bean>
+
+
+    <bean id="accessDecisionManager" class="org.springframework.security.access.vote.UnanimousBased">
+        <constructor-arg>
+            <list>
+                <bean class="org.springframework.security.oauth2.provider.vote.ScopeVoter" />
+                <bean class="org.springframework.security.access.vote.RoleVoter" />
+                <bean class="org.springframework.security.access.vote.AuthenticatedVoter" />
+            </list>
+        </constructor-arg>
+    </bean>
+
 
 
     <bean id="tokenStore" class="org.springframework.security.oauth2.provider.token.InMemoryTokenStore" />
