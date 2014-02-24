@@ -11,7 +11,7 @@ import org.springframework.security.core.{AuthenticationException, Authenticatio
 import org.springframework.security.core.context.SecurityContextHolder
 
 @Controller
-class LoginController @Autowired() (dataManager:FilibusterDataManager)
+class LoginController
 {
 
   private val LOGIN_VIEW:String = "login"

@@ -1,9 +1,3 @@
-create table if not exists persistent_logins (
-  username varchar(64) not null,
-  series varchar(64) primary key,
-  token varchar(64) not null,
-  last_used timestamp not null
-)
 
 create table if not exists acl_sid(
   id int auto_increment not null primary key,
@@ -41,3 +35,4 @@ create table if not exists acl_entry(
   constraint foreign_fk_4 foreign key(acl_object_identity)
       references acl_object_identity(id),
   constraint foreign_fk_5 foreign key(sid) references acl_sid(id));
+

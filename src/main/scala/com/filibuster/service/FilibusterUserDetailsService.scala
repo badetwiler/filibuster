@@ -7,21 +7,21 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority
 import com.filibuster.data.FilibusterDataManager
 import org.springframework.beans.factory.annotation.Autowired
 
-class FilibusterUserDetailsService @Autowired() (dataManager:FilibusterDataManager) extends UserDetailsService
+class FilibusterUserDetailsService extends UserDetailsService
 {
 
 
   override def loadUserByUsername(username: String): UserDetails =
   {
-
-    dataManager.getUser(username) match
-    {
-      case Some(user) => new User(user.username, user.hash, true, true, true, true,
-                                  new HashSet[GrantedAuthority](Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"))))
-
-      case None => throw new UsernameNotFoundException(s"$username does not exist")
-
-    }
+      null
+//    dataManager.getUser(username) match
+//    {
+//      case Some(user) => new User(user.username, user.hash, true, true, true, true,
+//                                  new HashSet[GrantedAuthority](Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"))))
+//
+//      case None => throw new UsernameNotFoundException(s"$username does not exist")
+//
+//    }
 
   }
 

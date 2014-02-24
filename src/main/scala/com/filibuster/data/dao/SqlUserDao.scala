@@ -1,37 +1,38 @@
 package com.filibuster.data.dao
 
-import java.sql.ResultSet
-import com.filibuster.model.User
+import org.springframework.beans.factory.annotation._
+import org.springframework.stereotype._
+import org.springframework.transaction.annotation.{Propagation, Transactional}
+import javax.persistence._
+import scala.collection.JavaConversions._
+import com.filibuster.data.model.User
 
-class SqlUserDao(template0: RichJdbcTemplate) extends BaseDao(template0) with UserDao
+@Repository("userDao")
+@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+class SqlUserDao extends UserDao
 {
-  private def _mapper = (rs:ResultSet, _:Int) =>
+
+  @Autowired
+  var entityManager: EntityManager = _
+
+  def save(user: User): Unit = user.id match
   {
-
-    val username = rs.getString("username")
-    val active = rs.getInt("active")
-    val email = rs.getString("email")
-    val salt = rs.getString("salt")
-    val hash = rs.getString("hash")
-
-    User(username,active,email,salt,hash)
-
+    case 0 => entityManager.persist(user)
+    case _ => entityManager.merge(user)
   }
 
-  def insert(user:User): Unit =
+  def find(id: Int): Option[User] =
   {
-    val sql = "INSERT INTO users(username,active,email,salt,hash) VALUES (?, ?, ?, ?, ?)"
-    update(sql, user.username, user.active, user.email, user.salt, user.hash)
-
+    Option(entityManager.find(classOf[User], id))
   }
 
-  def selectByUsername(username:String) : Option[User] =
-  {
-    _template.queryAndMap("SELECT username,active,email,salt,hash FROM users WHERE username = ?", username)(_mapper).headOption
-
+  def getAll: List[User] = {
+    entityManager.createQuery("From User", classOf[User]).getResultList.toList
   }
 
-
-
-
+  def getByUsername(username:String) : Option[User] =
+  {
+    None
+    //entityManager.createQuery("From user Where lastName = :lastName", classOf[User]).setParameter("lastName", lastName).getResultList.toList
+  }
 }

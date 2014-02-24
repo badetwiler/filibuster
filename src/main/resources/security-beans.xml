@@ -123,10 +123,6 @@
 
     <bean id="oauthAccessDeniedHandler" class="org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler" />
 
-    <bean name="filibusterUserDetailsService" class="com.filibuster.service.FilibusterUserDetailsService" >
-        <constructor-arg ref="filibusterDataManager" />
-    </bean>
-
 
 
 

@@ -1,13 +1,17 @@
 package com.filibuster.data.dao
 
-import com.filibuster.model.User
+import com.filibuster.data.model.User
 
 trait UserDao
 {
 
-  def insert(user:User): Unit
+  def save(user:User): Unit
 
-  def selectByUsername(username:String) : Option[User]
+  def find(id: Int): Option[User]
+
+  def getAll: List[User]
+
+  def getByUsername(username:String) : Option[User]
 
 
 }
