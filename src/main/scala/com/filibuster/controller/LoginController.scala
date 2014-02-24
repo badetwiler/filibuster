@@ -16,7 +16,4 @@ class LoginController @Autowired() (dataManager:FilibusterDataManager)
 
   private val LOGIN_VIEW:String = "login"
 
-
-
-
 }

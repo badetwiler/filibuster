@@ -14,8 +14,11 @@
 
 
     <import resource="classpath:data-beans.xml" />
+    <import resource="classpath:security-acl-beans.xml" />
 
-    <sec:global-method-security secured-annotations="enabled"/>
+    <sec:global-method-security secured-annotations="enabled">
+        <sec:expression-handler ref="expressionHandler"/>
+    </sec:global-method-security>
 
     <http pattern="/oauth/token" create-session="never" authentication-manager-ref="clientAuthenticationManager"
           xmlns="http://www.springframework.org/schema/security" >
@@ -108,6 +111,13 @@
     </bean>
 
 
+    <bean id="expressionHandler"
+          class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler">
+        <property name="permissionEvaluator" ref="permissionEvaluator"/>
+        <property name="permissionCacheOptimizer"
+                  ref="permissionCacheOptimizer"/>
+    </bean>
+
 
     <bean id="tokenStore" class="org.springframework.security.oauth2.provider.token.InMemoryTokenStore" />
 
@@ -116,6 +126,8 @@
     <bean name="filibusterUserDetailsService" class="com.filibuster.service.FilibusterUserDetailsService" >
         <constructor-arg ref="filibusterDataManager" />
     </bean>
+
+
 
 
 </beans>
