@@ -13,6 +13,12 @@
 
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
+    <bean id="userDao" class="com.filibuster.data.dao.SqlUserDao" />
+
+    <bean id="userService" class="com.filibuster.data.service.FilibusterUserDetailsServiceImpl" >
+        <constructor-arg name="userDao" ref="userDao" />
+    </bean>
+
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory" />
     </bean>

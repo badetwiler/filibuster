@@ -7,8 +7,8 @@ import org.junit.runner.RunWith
 import org.junit.Assert.{assertTrue,fail}
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
-import com.filibuster.data.FilibusterDataManager
 import org.springframework.beans.factory.annotation.Autowired
+import com.filibuster.data.service.FilibusterUserDetailsService
 
 @RunWith(classOf[SpringJUnit4ClassRunner])
 @ContextConfiguration( Array("classpath:test-context.xml") )
@@ -17,7 +17,7 @@ class SqlUserDaoTest extends TestCase
 
 
   @Autowired
-  var filibusterDataManager:FilibusterDataManager = _
+  var filibusterDataManager:FilibusterUserDetailsService = _
 
   //val user1 = User("testUser1", 1, "testuser1@testdomain.com", "no_salt", "some_hash")
 

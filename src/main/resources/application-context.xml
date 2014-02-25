@@ -15,6 +15,7 @@ http://www.springframework.org/schema/context/spring-context-3.2.xsd">
     <import resource="data-beans.xml" />
     <import resource="security-beans.xml"/>
 
+    <context:annotation-config/>
 
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/static/views/"/>

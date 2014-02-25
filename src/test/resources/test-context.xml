@@ -14,7 +14,7 @@
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
 
-    <bean id="filibusterDataManager" class="com.filibuster.data.FilibusterDataManager">
+    <bean id="filibusterDataManager" class="com.filibuster.data.service.FilibusterUserService">
         <constructor-arg ref="userDao" />
     </bean>
 

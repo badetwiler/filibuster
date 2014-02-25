@@ -6,19 +6,29 @@ import org.springframework.transaction.annotation.{Propagation, Transactional}
 import javax.persistence._
 import scala.collection.JavaConversions._
 import com.filibuster.data.model.User
+import scala.beans.BeanProperty
 
 @Repository("userDao")
 @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 class SqlUserDao extends UserDao
 {
 
+  @BeanProperty
+  @PersistenceUnit
   @Autowired
-  var entityManager: EntityManager = _
+  var entityManagerFactory:EntityManagerFactory = _
 
-  def save(user: User): Unit = user.id match
+  lazy val entityManager = entityManagerFactory.createEntityManager()
+
+  def save(user: User): Unit =
   {
-    case 0 => entityManager.persist(user)
-    case _ => entityManager.merge(user)
+
+      user.id match
+      {
+          case 0 => entityManager.persist(user)
+          case _ => entityManager.merge(user)
+
+      }
   }
 
   def find(id: Int): Option[User] =
@@ -32,7 +42,7 @@ class SqlUserDao extends UserDao
 
   def getByUsername(username:String) : Option[User] =
   {
-    None
-    //entityManager.createQuery("From user Where lastName = :lastName", classOf[User]).setParameter("lastName", lastName).getResultList.toList
+    entityManager.createQuery("From user Where username = :username",
+                              classOf[User]).setParameter("username", username).getResultList.toList.headOption
   }
 }
