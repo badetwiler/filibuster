@@ -15,7 +15,7 @@
 
     <bean id="userDao" class="com.filibuster.data.dao.SqlUserDao" />
 
-    <bean id="userService" class="com.filibuster.data.service.FilibusterUserDetailsServiceImpl" >
+    <bean id="userService" class="com.filibuster.data.service.FilibusterUserServiceImpl" >
         <constructor-arg name="userDao" ref="userDao" />
     </bean>
 

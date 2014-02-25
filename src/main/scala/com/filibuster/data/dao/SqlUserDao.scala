@@ -2,14 +2,13 @@ package com.filibuster.data.dao
 
 import org.springframework.beans.factory.annotation._
 import org.springframework.stereotype._
-import org.springframework.transaction.annotation.{Propagation, Transactional}
+import org.springframework.transaction.annotation.{Transactional, Propagation}
 import javax.persistence._
 import scala.collection.JavaConversions._
 import com.filibuster.data.model.User
 import scala.beans.BeanProperty
 
 @Repository("userDao")
-@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 class SqlUserDao extends UserDao
 {
 
@@ -20,16 +19,14 @@ class SqlUserDao extends UserDao
 
   lazy val entityManager = entityManagerFactory.createEntityManager()
 
-  def save(user: User): Unit =
-  {
-
-      user.id match
-      {
-          case 0 => entityManager.persist(user)
-          case _ => entityManager.merge(user)
-
-      }
-  }
+    def save(user: User): Unit =
+    {
+        user.id match
+        {
+            case 0 => entityManager.persist(user)
+            case _ => entityManager.merge(user)
+        }
+    }
 
   def find(id: Int): Option[User] =
   {
