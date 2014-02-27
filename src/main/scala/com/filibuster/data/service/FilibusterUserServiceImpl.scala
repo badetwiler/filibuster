@@ -10,13 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired
 import com.filibuster.data.dao.UserDao
 import com.filibuster.data.model.User
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
+import org.springframework.transaction.annotation.{Propagation, Transactional}
 
-@Transactional
-@Service("userService")
+@Service
+@Transactional( propagation = Propagation.REQUIRES_NEW )
 class FilibusterUserServiceImpl @Autowired() (userDao:UserDao) extends UserDetailsService with FilibusterUserDetailsService
 {
 
+  @Transactional
   def createNewUser(user: User) =
     {
       userDao.save(user)

@@ -12,13 +12,8 @@ http://www.springframework.org/schema/context
 http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 
 
-
     <context:annotation-config/>
-    <mvc:annotation-driven />
-    <context:component-scan base-package="com.filibuster.data.dao" />
-    <context:component-scan base-package="com.filibuster.data.service" />
-    <context:component-scan base-package="com.filibuster.controller" />
-
+    <context:component-scan base-package="com.filibuster.data" />
 
     <import resource="data-beans.xml" />
     <import resource="security-beans.xml"/>
