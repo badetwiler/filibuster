@@ -9,26 +9,25 @@ import com.filibuster.data.model.User
 import scala.beans.BeanProperty
 
 @Repository("userDao")
-@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+@Transactional( propagation = Propagation.MANDATORY )
 class SqlUserDao extends UserDao
 {
 
   @BeanProperty
-  @PersistenceUnit
+  @PersistenceContext
   @Autowired
-  var entityManagerFactory:EntityManagerFactory = _
+  var entityManager:EntityManager = _
 
-  lazy val entityManager = entityManagerFactory.createEntityManager()
-
+  @Transactional
   def save(user: User): Unit =
   {
-
       user.id match
       {
           case 0 => entityManager.persist(user)
           case _ => entityManager.merge(user)
 
       }
+
   }
 
   def find(id: Int): Option[User] =
@@ -36,7 +35,8 @@ class SqlUserDao extends UserDao
     Option(entityManager.find(classOf[User], id))
   }
 
-  def getAll: List[User] = {
+  def getAll: List[User] =
+  {
     entityManager.createQuery("From User", classOf[User]).getResultList.toList
   }
 
