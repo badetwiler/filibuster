@@ -34,7 +34,7 @@ class FilibusterUserServiceImpl @Autowired() (userDao:UserDao) extends UserDetai
     userDao.getByUsername(username) match
     {
 
-      case Some(user) => new SecurityUser(user.username, user.hashed_password, true, true, true, true,
+      case Some(user) => new SecurityUser(user.username, user.hashedPassword, true, true, true, true,
                                           new HashSet[GrantedAuthority](Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"))))
 
       case None => throw new UsernameNotFoundException(s"$username does not exist")

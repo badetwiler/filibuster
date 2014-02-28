@@ -25,7 +25,6 @@ class SqlUserDao extends UserDao
       {
           case 0 => entityManager.persist(user)
           case _ => entityManager.merge(user)
-
       }
 
   }

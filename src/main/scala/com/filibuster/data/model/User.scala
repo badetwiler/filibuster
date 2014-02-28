@@ -17,13 +17,18 @@ class User (_username:String, _hashed_password:String, _email_address:String)
   var username: String = _username
 
   @BeanProperty
-  var hashed_password: String = _hashed_password
+  var hashedPassword: String = _hashed_password
 
   @BeanProperty
-  var email_address: String = _email_address
+  var emailAddress: String = _email_address
+
+  @BeanProperty
+  @OneToMany
+  var groups: java.util.List[Group] = _
+
 
   def this() = this (null, null, null)
 
-  override def toString = id.toString + " = " + username + " : " + email_address
+  override def toString = id.toString + " = " + username + " : " + emailAddress
 
 }
