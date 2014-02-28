@@ -2,9 +2,11 @@ package com.filibuster.data.model
 
 import javax.persistence._
 import scala.beans.BeanProperty
+import org.hibernate.annotations.Cascade
+import java.util
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 class User (_username:String, _hashed_password:String, _email_address:String)
 {
 
@@ -23,8 +25,9 @@ class User (_username:String, _hashed_password:String, _email_address:String)
   var emailAddress: String = _email_address
 
   @BeanProperty
-  @OneToMany
-  var groups: java.util.List[Group] = _
+  @OneToMany(fetch=FetchType.LAZY, mappedBy = "pk.user", cascade = Array(CascadeType.PERSIST, CascadeType.MERGE), orphanRemoval = true)
+  @Cascade(Array( org.hibernate.annotations.CascadeType.SAVE_UPDATE) )
+  var groupMemberAssociations: java.util.List[GroupMemberAssociation] = new java.util.LinkedList[GroupMemberAssociation]()
 
 
   def this() = this (null, null, null)

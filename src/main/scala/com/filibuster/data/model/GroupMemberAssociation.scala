@@ -2,34 +2,43 @@ package com.filibuster.data.model
 
 import javax.persistence._
 import scala.beans.BeanProperty
-import com.filibuster.data.model.id.GroupMemberAssociationId
+import com.filibuster.data.model.pk.GroupMemberPk
+
 
 @Entity
-@Table(name="group_member")
-@IdClass(classOf[GroupMemberAssociationId])
+@Table(name="group_members")
+@AssociationOverrides(Array(
+  new AssociationOverride(name="pk.user",  joinColumns = Array(new JoinColumn(name="userId"))),
+  new AssociationOverride(name="pk.group", joinColumns = Array(new JoinColumn(name="groupId")))
+))
 class GroupMemberAssociation
 {
 
   @BeanProperty
-  @Id
-  var memberId:Long = _
-
-  @BeanProperty
-  @Id
-  var groupId:Long = _
+  @EmbeddedId
+  var pk:GroupMemberPk = new GroupMemberPk
 
   @BeanProperty
   var isProjectLead:Boolean = _
 
   @BeanProperty
-  @ManyToOne
-  @PrimaryKeyJoinColumn(name="memberId", referencedColumnName = "id")
+  @Transient
   var user:User = _
 
   @BeanProperty
-  @ManyToOne
-  @PrimaryKeyJoinColumn(name="groupId", referencedColumnName = "id")
+  @Transient
   var group:Group = _
+
+
+  override def hashCode:Int =
+  {
+      pk == null match
+      {
+          case true => 0
+          case false => pk.hashCode
+      }
+
+  }
 
 }
 

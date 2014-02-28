@@ -41,7 +41,7 @@
     <bean id="jpaAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
         <property name="databasePlatform" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
         <property name="generateDdl" value="true" />
-        <property name="showSql" value="false" />
+        <property name="showSql" value="true" />
     </bean>
 
     <bean id="javaJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">

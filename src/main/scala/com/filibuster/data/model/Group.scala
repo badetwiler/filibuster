@@ -4,8 +4,8 @@ import javax.persistence._
 import scala.beans.BeanProperty
 
 @Entity
-@Table(name="group")
-class Group (_groupname:String, _members: List[User])
+@Table(name="groups")
+class Group (_groupname:String)
 {
 
   @Id
@@ -17,10 +17,10 @@ class Group (_groupname:String, _members: List[User])
   var groupname: String = _groupname
 
   @BeanProperty
-  @OneToMany
-  var members: java.util.List[User] = _
+  @OneToMany(fetch=FetchType.LAZY, mappedBy = "pk.group")
+  var groupMemberAssociations: java.util.List[GroupMemberAssociation]  = new java.util.LinkedList[GroupMemberAssociation]()
 
-  def this() = this (null, null)
+  def this() = this (null)
 
   override def toString = id.toString + " = " + groupname
 
