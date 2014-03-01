@@ -40,7 +40,7 @@ class JettyServer extends Logging
 
       _logger.info("Webroot: " + webrootPath + ", is running from jar: " + isRunningFromJar)
 
-      val servletContextHandler: ServletContextHandler = new ServletContextHandler(_server, "/", true, false)
+      val servletContextHandler: ServletContextHandler = new ServletContextHandler(_server, "/", false, false)
       servletContextHandler.setWelcomeFiles(Array("webapp/static/views/index.html"))
       servletContextHandler.addFilter(new FilterHolder(new DelegatingFilterProxy("springSecurityFilterChain")), "/*", util.EnumSet.allOf(classOf[DispatcherType]))
       servletContextHandler.addEventListener(new ContextLoaderListener())

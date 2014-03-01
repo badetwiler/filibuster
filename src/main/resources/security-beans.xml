@@ -42,6 +42,9 @@
         <access-denied-handler ref="oauthAccessDeniedHandler" />
     </http>
 
+    <!--<http pattern="/**" security="none"-->
+          <!--xmlns="http://www.springframework.org/schema/security"/>-->
+
 
     <bean id="clientCredentialsTokenEndpointFilter"
           class="org.springframework.security.oauth2.provider.client.ClientCredentialsTokenEndpointFilter">

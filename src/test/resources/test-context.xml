@@ -18,7 +18,7 @@
         <constructor-arg ref="userDao" />
     </bean>
 
-    <bean id="userDao" class="com.filibuster.data.dao.SqlUserDao">
+    <bean id="userDao" class="com.filibuster.data.dao.UserDaoImpl">
         <constructor-arg ref="jdbcTemplate"/>
     </bean>
 

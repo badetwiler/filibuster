@@ -5,38 +5,47 @@ import org.springframework.web.bind.annotation.{RequestParam, ResponseBody, Requ
 import play.api.libs.json.Json.stringify
 import play.api.libs.json.Json
 import org.springframework.stereotype.Controller
+import org.springframework.beans.factory.annotation.Autowired
+import com.filibuster.data.service.FilibusterGroupService
+import com.filibuster.controller.response.model.FilibusterResponse
 
-
-/**
- * Created with IntelliJ.
- * by Ben Detwiler
- * Date: 11/30/13
- *
- * work harder, not smarter
- */
 @Controller
-@RequestMapping(value=Array("/group"))
-class GroupController {
+class GroupController
+{
 
-  @RequestMapping(value = Array("/create_group"), method = Array(RequestMethod.GET))
+
+  @Autowired
+  var groupService:FilibusterGroupService = _
+
+
+  @RequestMapping(value = Array("/group"), method = Array(RequestMethod.POST))
   @ResponseBody
-  def create_group(@RequestParam(value="name") words : String) = {
-    //TODO: connect to service to create group
+  def create_group(@RequestParam(value="name") groupname : String,
+                   @RequestParam(value="owner") owner : String) =
+  {
+
+    groupService.usernameExists(owner) match
+    {
+      case false => FilibusterResponse(success = false, status = "owner does not exist")
+
+      case true =>
+          groupService.createGroup(groupname)
+          groupService.addGroupOwner(groupname,owner)
+          match
+          {
+            case false => FilibusterResponse(success = false, status = "failed to create group")
+
+            case true =>  FilibusterResponse(success = true, status = "")
+
+          }
+
+
+    }
+
+
+
   }
 
 
-  /**
-   * return a list of groups the user is in
-   * @param name the user requesting the list
-   */
-  @RequestMapping(value = Array("/groups"), method = Array(RequestMethod.GET))
-  @ResponseBody
-  def get_groups(@RequestParam(value="name") name : String) = {
-
-    //TODO: connect to service and return results
-
-    //demo return value
-    stringify(Json.arr(Seq("family, mIRC, taylor-gang")))
-  }
 
 }

@@ -13,7 +13,13 @@
 
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
-    <bean id="userDao" class="com.filibuster.data.dao.SqlUserDao" />
+    <bean id="userDao" class="com.filibuster.data.dao.UserDaoImpl" />
+    <bean id="groupDao" class="com.filibuster.data.dao.GroupDaoImpl" />
+
+    <bean id="groupService" class="com.filibuster.data.service.FilibusterGroupServiceImpl" >
+        <constructor-arg name="userDao" ref="userDao" />
+        <constructor-arg name="groupDao" ref="groupDao" />
+    </bean>
 
     <bean id="userService" class="com.filibuster.data.service.FilibusterUserServiceImpl" >
         <constructor-arg name="userDao" ref="userDao" />

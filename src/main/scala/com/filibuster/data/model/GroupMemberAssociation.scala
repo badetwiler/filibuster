@@ -11,23 +11,25 @@ import com.filibuster.data.model.pk.GroupMemberPk
   new AssociationOverride(name="pk.user",  joinColumns = Array(new JoinColumn(name="userId"))),
   new AssociationOverride(name="pk.group", joinColumns = Array(new JoinColumn(name="groupId")))
 ))
-class GroupMemberAssociation
+class GroupMemberAssociation(_user:User, _group:Group, _isGroupCreator:Boolean)
 {
+
+  def this() = this(null,null,false)
 
   @BeanProperty
   @EmbeddedId
-  var pk:GroupMemberPk = new GroupMemberPk
+  var pk:GroupMemberPk = new GroupMemberPk(_user,_group)
 
   @BeanProperty
-  var isProjectLead:Boolean = _
-
-  @BeanProperty
-  @Transient
-  var user:User = _
+  var isGroupCreator:Boolean = _isGroupCreator
 
   @BeanProperty
   @Transient
-  var group:Group = _
+  var user:User = pk.user
+
+  @BeanProperty
+  @Transient
+  var group:Group = pk.group
 
 
   override def hashCode:Int =

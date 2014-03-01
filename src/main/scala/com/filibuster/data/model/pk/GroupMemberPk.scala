@@ -5,16 +5,18 @@ import scala.beans.BeanProperty
 import com.filibuster.data.model.{Group, User}
 
 @Embeddable
-class GroupMemberPk extends Serializable
+class GroupMemberPk(_user:User, _group: Group) extends Serializable
 {
 
-    @BeanProperty
-    @ManyToOne
-    var user:User = _
+    def this() = this(null,null)
 
     @BeanProperty
     @ManyToOne
-    var group:Group = _
+    var user:User = _user
+
+    @BeanProperty
+    @ManyToOne
+    var group:Group = _group
 
     /*
     override def equals(o:Object): Boolean =

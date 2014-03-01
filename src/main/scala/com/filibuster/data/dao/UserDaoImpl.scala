@@ -9,8 +9,7 @@ import com.filibuster.data.model.User
 import scala.beans.BeanProperty
 
 @Repository("userDao")
-@Transactional( propagation = Propagation.MANDATORY )
-class SqlUserDao extends UserDao
+class UserDaoImpl extends UserDao
 {
 
   @BeanProperty
@@ -37,12 +36,12 @@ class SqlUserDao extends UserDao
 
   def getAll: List[User] =
   {
-    entityManager.createQuery("From User", classOf[User]).getResultList.toList
+    entityManager.createQuery("From users", classOf[User]).getResultList.toList
   }
 
   def getByUsername(username:String) : Option[User] =
   {
-    entityManager.createQuery("From user Where username = :username",
+    entityManager.createQuery("FROM User WHERE username = :username",
                               classOf[User]).setParameter("username", username).getResultList.toList.headOption
   }
 }
