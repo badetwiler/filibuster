@@ -20,6 +20,11 @@
         <sec:expression-handler ref="expressionHandler"/>
     </sec:global-method-security>
 
+
+    <!--example usage-->
+    <!--curl -v -X POST "my-trusted-client:secret@localhost:8080/oauth/token?grant_type=password&username=ben&password=ben"-->
+    <!--curl -H "Authorization: Bearer 8547e524-361b-41b2-8331-154a861a3beb" http://localhost:8080/resources/1-->
+
     <http pattern="/oauth/token" create-session="never" authentication-manager-ref="clientAuthenticationManager"
           xmlns="http://www.springframework.org/schema/security" >
         <intercept-url pattern="/**" method="GET" access="ROLE_DENY" />
