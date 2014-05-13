@@ -12,6 +12,7 @@ import org.springframework.web.filter.DelegatingFilterProxy
 import javax.servlet.DispatcherType
 import java.util
 import org.springframework.web.context.ContextLoaderListener
+import org.atmosphere.cpr.{MeteorServlet, ApplicationConfig, AtmosphereServlet}
 
 
 class JettyServer extends Logging
@@ -52,6 +53,16 @@ class JettyServer extends Logging
       springServletHolder.setInitOrder(10) // A positive value here indicates eagerly load; a negative value is lazy
 
 
+
+      val atmosphereServletHolder = new ServletHolder(classOf[MeteorServlet])
+      atmosphereServletHolder.setInitParameter("org.atmosphere.servlet", "org.springframework.web.servlet.DispatcherServlet")
+      atmosphereServletHolder.setInitParameter("org.atmosphere.cpr.broadcasterClass", "org.atmosphere.cpr.DefaultBroadcaster")
+      atmosphereServletHolder.setInitParameter("contextConfigLocation","classpath:web-context.xml")
+      atmosphereServletHolder.setInitParameter("org.atmosphere.useWebSocket","true")
+      atmosphereServletHolder.setInitParameter("org.atmosphere.useNative","true")
+      atmosphereServletHolder.setInitParameter("org.atmosphere.useStream","true")
+      atmosphereServletHolder.setAsyncSupported(true)
+
       val staticContentServlet = new ServletHolder(new DefaultServlet {
         private final val resourcesPrefix = "/webapp"
 
@@ -77,7 +88,9 @@ class JettyServer extends Logging
       staticContentServlet.setInitOrder(1)
 
       servletContextHandler.addServlet(staticContentServlet, "/static/*")
-      servletContextHandler.addServlet(springServletHolder, "/*")
+      servletContextHandler.addServlet(atmosphereServletHolder,"/*")
+      //servletContextHandler.addServlet(springServletHolder, "/*")
+
 
 
       _server.start()
