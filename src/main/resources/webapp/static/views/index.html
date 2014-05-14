@@ -1,33 +1,51 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-        <link href="static/js/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
-        <link href="static/js/jquery-ui-bootstrap/jquery-ui-1.10.0.custom.css" rel="stylesheet"/>
-        <link href="static/css/index.css" rel="stylesheet"/>
-
-        <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
-        <script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-        <script type="text/javascript" src="static/js/bootstrap/js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="static/js/index.js"></script>
-    </head>
-    <body>
-        <div class="navbar navbar-inverse navbar-fixed-top"></div>
-        <h1>filibuster chat</h1>
-        <div class="container">
-            <form action="login" method="post">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username"/>
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password"/>
-                <div class="form-actions">
-                    <input id="submit" class="btn" name="submit" type="submit" value="Login"/>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atmosphere Chat AngularJS</title>
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="static/css/app.css" />
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+    <script src="static/js/atmosphere.js"></script>
+    <script src="static/js/app.js"></script>
+</head>
+<body data-ng-app="angular.atmosphere.chat" data-ng-controller="ChatController">
+<div id="header">
+    <h3 data-ng-bind="model.header" data-ng-init="model.header='Atmosphere Chat. Default transport is WebSocket, fallback is long-polling'"></h3>
+</div>
+<p data-ng-show="!model.connected">Connecting...</p>
+<p>{{model.content}}</p>
+<div class="container">
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Chat room</h3>
+            </div>
+            <div class="panel-body">
+                <div class="messages">
+                    <p data-ng-repeat="message in model.messages">
+                        <span class="time">{{message.date | date:'shortDate'}} {{message.date|date:'shortTime'}}</span>
+                        <span class="author">{{message.author}}</span> :
+                        <span class="text">{{message.text}}</span>
+                    </p>
                 </div>
-            </form>
-            <form action="new-user">
-                <input type="submit" value="New User" />
-            </form>
+            </div>
         </div>
-
-    </body>
+    </div>
+    <span data-ng-show="!model.name">Enter your name:</span>
+    <div data-ng-show="model.logged">
+        <span><b>{{model.name}}</b> says:</span>
+    </div>
+    <form role="form" class="form-horizontal">
+        <div class="form-group">
+            <div class="col-lg-9">
+                <input type="text" class="form-control" id="input" data-ng-disabled="!model.connected" x-webkit-speech/>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
 </html>
