@@ -41,7 +41,7 @@ class JettyServer extends Logging
 
       _logger.info("Webroot: " + webrootPath + ", is running from jar: " + isRunningFromJar)
 
-      val servletContextHandler: ServletContextHandler = new ServletContextHandler(_server, "/", false, false)
+      val servletContextHandler: ServletContextHandler = new ServletContextHandler(_server, "/", false,false)
       servletContextHandler.setWelcomeFiles(Array("webapp/static/views/index.html"))
       servletContextHandler.addFilter(new FilterHolder(new DelegatingFilterProxy("springSecurityFilterChain")), "/*", util.EnumSet.allOf(classOf[DispatcherType]))
       servletContextHandler.addEventListener(new ContextLoaderListener())
@@ -57,6 +57,10 @@ class JettyServer extends Logging
       val atmosphereServletHolder = new ServletHolder(classOf[MeteorServlet])
       atmosphereServletHolder.setInitParameter("org.atmosphere.servlet", "org.springframework.web.servlet.DispatcherServlet")
       atmosphereServletHolder.setInitParameter("org.atmosphere.cpr.broadcasterClass", "org.atmosphere.cpr.DefaultBroadcaster")
+      atmosphereServletHolder.setInitParameter("org.atmosphere.cpr.CometSupport","org.atmosphere.container.Jetty9AsyncSupportWithWebSocket")
+      atmosphereServletHolder.setInitParameter("org.atmosphere.cpr.CometSupport","org.atmosphere.container.JettyCometSupport")
+      atmosphereServletHolder.setInitParameter("org.atmosphere.cpr.CometSupport.maxInactiveActivity","10000")
+
       atmosphereServletHolder.setInitParameter("contextConfigLocation","classpath:web-context.xml")
       atmosphereServletHolder.setInitParameter("org.atmosphere.useWebSocket","true")
       atmosphereServletHolder.setInitParameter("org.atmosphere.useNative","true")
