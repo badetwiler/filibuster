@@ -13,6 +13,7 @@ import javax.servlet.DispatcherType
 import java.util
 import org.springframework.web.context.ContextLoaderListener
 import org.atmosphere.cpr.{MeteorServlet, ApplicationConfig, AtmosphereServlet}
+import org.atmosphere.interceptor.HeartbeatInterceptor
 
 
 class JettyServer extends Logging
@@ -57,7 +58,21 @@ class JettyServer extends Logging
       val atmosphereServletHolder = new ServletHolder(classOf[MeteorServlet])
       atmosphereServletHolder.setInitParameter("org.atmosphere.servlet", "org.springframework.web.servlet.DispatcherServlet")
       atmosphereServletHolder.setInitParameter("org.atmosphere.cpr.broadcasterClass", "org.atmosphere.cpr.DefaultBroadcaster")
-      atmosphereServletHolder.setInitParameter("org.atmosphere.cpr.CometSupport","org.atmosphere.container.Jetty9AsyncSupportWithWebSocket")
+//      atmosphereServletHolder.setInitParameter("org.atmosphere.cpr.CometSupport","org.atmosphere.container.Jetty9AsyncSupportWithWebSocket")
+
+      //atmosphereServletHolder.setInitParameter("org.atmosphere.cpr.broadcastFilterClasses","org.atmosphere.client.TrackMessageSizeFilter")
+
+
+      atmosphereServletHolder.setInitParameter("org.atmosphere.cpr.AtmosphereInterceptor",
+                                               "org.atmosphere.interceptor.HeartbeatInterceptor," +
+                                               "org.atmosphere.client.TrackMessageSizeInterceptor," +
+                                               "org.atmosphere.interceptor.AtmosphereResourceLifecycleInterceptor," +
+                                               "org.atmosphere.interceptor.SuspendTrackerInterceptor")
+                                               //"org.atmosphere.config.managed.MeteorServiceInterceptor")
+
+
+      atmosphereServletHolder.setInitParameter("org.atmosphere.cpr.broadcasterCacheClass","org.atmosphere.cache.UUIDBroadcasterCache")
+
       atmosphereServletHolder.setInitParameter("contextConfigLocation","classpath:web-context.xml")
       atmosphereServletHolder.setInitParameter("org.atmosphere.useWebSocket","true")
       atmosphereServletHolder.setInitParameter("org.atmosphere.useNative","true")

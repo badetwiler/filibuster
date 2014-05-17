@@ -13,7 +13,7 @@ class ResourcesController
     def new_user (@RequestHeader(value="Authorization") auth_token:String) =
     {
 
-        "your token: " + auth_token
+        "valid token: " + auth_token + " \n"
     }
 
 

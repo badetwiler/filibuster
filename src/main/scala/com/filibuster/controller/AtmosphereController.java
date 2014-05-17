@@ -4,6 +4,9 @@ import org.atmosphere.cpr.AtmosphereRequest;
 import org.atmosphere.cpr.AtmosphereResource;
 import org.atmosphere.cpr.AtmosphereResourceEvent;
 import org.atmosphere.cpr.AtmosphereResourceEventListenerAdapter;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
+import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -46,11 +49,6 @@ public class AtmosphereController {
                 System.out.println("is suspended");
             }
 
-
-
-
-
-
         });
 
         AtmosphereRequest atmosphereRequest = atmosphereResource.getRequest();
@@ -60,7 +58,7 @@ public class AtmosphereController {
         if(atmosphereRequest.getHeader("negotiating") == null) {
             atmosphereResource.resumeOnBroadcast(atmosphereResource.transport() == AtmosphereResource.TRANSPORT.LONG_POLLING).suspend();
         } else {
-            atmosphereResource.getResponse().getWriter().write("OK");
+           atmosphereResource.getResponse().getWriter().write("OK");
         }
 
         subscribers.add(session);
@@ -79,27 +77,62 @@ public class AtmosphereController {
         AtmosphereRequest atmosphereRequest = atmosphereResource.getRequest();
 
         String body = atmosphereRequest.getReader().readLine().trim();
+        JSONParser jsonParser = new JSONParser();
 
-        String author = body.substring(body.indexOf(":") + 2, body.indexOf(",") - 1);
-        String message = body.substring(body.lastIndexOf(":") + 2, body.length() - 2);
+        JSONObject obj;
+        try{
+            obj = (JSONObject)jsonParser.parse(body);
+            String name = (String)obj.get("author");
+            String message = (String)obj.get("message");
+            atmosphereResource.getBroadcaster().broadcast(new ChatMessage(name, message).toString());
 
-        atmosphereResource.getBroadcaster().broadcast(new Data(author, message).toString());
-
+        }catch(ParseException e) {
+            e.printStackTrace();
+        }
     }
 
-    private final static class Data {
+    private final class ChatMessage {
+        private String message;
+        private String author;
+        private long time;
 
-        private final String text;
-        private final String author;
+        public ChatMessage() {
+            this("", "");
+        }
 
-        public Data(String author, String text) {
+        public ChatMessage(String author, String message){
             this.author = author;
-            this.text = text;
+            this.message = message;
+            this.time = new Date().getTime();
         }
 
-        public String toString() {
-            return "{ \"text\" : \"" + text + "\", \"author\" : \"" + author + "\" , \"time\" : " + new Date().getTime() + "}";
+        public String getMessage(){
+            return message;
         }
+
+        public String getAuthor(){
+            return author;
+        }
+
+        public void setAuthor(String author){
+            this.author = author;
+        }
+
+        public void setMessage(String message){
+            this.message = message;
+        }
+
+        public long getTime(){
+            return time;
+        }
+
+        public void setTime(long time){
+            this.time = time;
+        }
+        public String toString() {
+            return "{ \"author\" : \"" + author + "\", \"message\" : \"" + message + "\" , \"time\" : " + Long.toString(time) + "}";
+        }
+
 
     }
 

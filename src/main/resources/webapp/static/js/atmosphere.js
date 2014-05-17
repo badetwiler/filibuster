@@ -1478,13 +1478,15 @@
                     request.uuid = atmosphere.util.trim(messages[pos]);
                     request.stime = atmosphere.util.trim(messages[pos + 1]);
 
-                    var interval = parseInt(atmosphere.util.trim(messages[pos + 2]), 10);
-                    var paddingData = messages[pos + 3];
+                    if (messages.length > pos + 2) {
+                        var interval = parseInt(atmosphere.util.trim(messages[pos + 2]), 10);
+                        var paddingData = messages[pos + 3];
 
-                    if (!isNaN(interval) && interval > 0) {
-                        request.heartbeatTimer = setTimeout(function () {
-                            _push(paddingData);
-                        }, interval);
+                        if (!isNaN(interval) && interval > 0) {
+                            request.heartbeatTimer = setTimeout(function () {
+                                _push(paddingData);
+                            }, interval);
+                        }
                     }
 
                     if (request.transport !== 'long-polling') {
