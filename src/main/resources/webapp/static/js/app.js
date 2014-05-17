@@ -48,11 +48,11 @@ function ChatController($scope, atmosphereService){
     var socket;
 
     var request = {
-        url: '/chat',
+        url: '/atmosphere/chat',
         contentType: 'application/json',
         logLevel: 'debug',
         transport: 'websocket',
-        trackMessageLength: true,
+        trackMessageLength: false,
         reconnectInterval: 5000,
         enableXDR: true,
         timeout: 60000
@@ -93,7 +93,7 @@ function ChatController($scope, atmosphereService){
                 $scope.model.logged = true;
             else{
                 var date = typeof(message.time) === 'string' ? parseInt(message.time) : message.time;
-                $scope.model.messages.push({author: message.author, date: new Date(date), text: message.message});
+                $scope.model.messages.push({author:"ben", message:"hello world"});
             }
         }catch(e){
             console.error("Error parsing JSON: ", responseText);
@@ -104,7 +104,7 @@ function ChatController($scope, atmosphereService){
     request.onClose = function(response){
         $scope.model.connected = false;
         $scope.model.content = 'Server closed the connection after a timeout';
-        socket.push(atmosphere.util.stringifyJSON({ author: $scope.model.name, message: 'disconnecting' }));
+        socket.push(atmosphere.util.stringifyJSON({author:"ben", message:"hello world"}));
     };
 
     request.onError = function(response){
@@ -129,7 +129,7 @@ function ChatController($scope, atmosphereService){
                 if(!$scope.model.name)
                     $scope.model.name = msg;
 
-                socket.push(atmosphere.util.stringifyJSON({author: $scope.model.name, message: msg}));
+                socket.push(atmosphere.util.stringifyJSON({author:"ben", message:"hello world"}));
                 $(me).val('');
             });
         }

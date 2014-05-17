@@ -57,6 +57,7 @@ class JettyServer extends Logging
       val atmosphereServletHolder = new ServletHolder(classOf[MeteorServlet])
       atmosphereServletHolder.setInitParameter("org.atmosphere.servlet", "org.springframework.web.servlet.DispatcherServlet")
       atmosphereServletHolder.setInitParameter("org.atmosphere.cpr.broadcasterClass", "org.atmosphere.cpr.DefaultBroadcaster")
+      atmosphereServletHolder.setInitParameter("org.atmosphere.cpr.CometSupport","org.atmosphere.container.Jetty9AsyncSupportWithWebSocket")
       atmosphereServletHolder.setInitParameter("contextConfigLocation","classpath:web-context.xml")
       atmosphereServletHolder.setInitParameter("org.atmosphere.useWebSocket","true")
       atmosphereServletHolder.setInitParameter("org.atmosphere.useNative","true")
